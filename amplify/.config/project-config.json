@@ -1,0 +1,17 @@
+{
+  "projectName": "BakersPercentPro",
+  "version": "3.1",
+  "frontend": "javascript",
+  "javascript": {
+    "framework": "react-native",
+    "config": {
+      "SourceDir": "srcKr",
+      "DistributionDir": "dist",
+      "BuildCommand": "expo build:android",
+      "StartCommand": "expo start"
+    }
+  },
+  "providers": [
+    "awscloudformation"
+  ]
+}
