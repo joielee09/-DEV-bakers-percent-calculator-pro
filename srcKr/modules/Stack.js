@@ -1,8 +1,8 @@
 import React from 'react';
 import { createStackNavigator, HeaderTitle } from "@react-navigation/stack";
 import Tab from './Tabs';
-import BasicRecipe from './Basic Recipes/index'
-import BRList from './Basic Recipes/BRList'
+import PublicRecipesList from './PublicRecipes/ListContainer'
+import PublicRecipesDetailed from './PublicRecipes/DetailedPresenter'
 import Calculator from './Calculator'
 import Personal from './Personal'
 import detailed from './Personal/detailed';
@@ -17,8 +17,8 @@ export default Basic = () => {
       }}
     >
       <Stack.Screen name="Tab" component={Tab} />
-      <Stack.Screen name="BasicRecipe" component={BasicRecipe} />
-      <Stack.Screen name="BRList" component={BRList} />
+      <Stack.Screen name="BasicRecipe" component={PublicRecipesDetailed} />
+      <Stack.Screen name="BRList" component={PublicRecipesList} />
       <Stack.Screen name="Calculator" component={Calculator} />
       <Stack.Screen name="Personal" component={Personal} />
       <Stack.Screen name="detailed" component={detailed} />

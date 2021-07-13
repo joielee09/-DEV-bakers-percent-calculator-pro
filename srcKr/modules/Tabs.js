@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import BRList from './Basic Recipes/BRList';
+import PublicRecipesList from './PublicRecipes/ListContainer'
 import Calculator from './Calculator';
 import Personal from './Personal';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -43,7 +43,7 @@ export default Basic = () => {
       }}
     >
       <Tab.Screen name="Calculator" component={Calculator}/>
-      <Tab.Screen name="Recipes" component={BRList} />
+      <Tab.Screen name="Recipes" component={PublicRecipesList} />
       <Tab.Screen name="Personal" component={Personal} />
     </Tab.Navigator>
   )
