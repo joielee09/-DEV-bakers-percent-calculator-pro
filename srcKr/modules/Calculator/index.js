@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
-import { Dimensions, ScrollView, TextInput,Modal, Button, View, StyleSheet, Pressable, Alert } from 'react-native';
+import { Dimensions, ScrollView, TextInput, Modal, Button, View, StyleSheet, Pressable, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Ingredient from '../../component/ingredient';
 import { connect } from 'react-redux';
@@ -16,6 +16,7 @@ const HEIGHT = Dimensions.get('screen').height;
 const Wrapper = styled.View``;
 const Text = styled.Text`
   font-size: 15px;
+  font-family : 'PoorStory';
 `;
 
 const InputContainer = styled.View`
@@ -32,7 +33,7 @@ const AddBtn = styled.View`
 `;
 const AddText = styled.Text`
   /* margin: auto; */
-  font-family: 'Delius';
+  font-family: 'PoorStory';
   font-size: 12px;
   text-align: center;
 `;
@@ -53,7 +54,7 @@ const SaveBtn = styled.View`
 `;
 const SaveText = styled.Text`
   margin: auto;
-  font-family: 'Delius';
+  font-family: 'PoorStory';
   font-size: 12px;
 `;
 const DevListBtn = styled.View`
@@ -70,7 +71,7 @@ const ResetBtn = styled.View`
 `;
 const ResetText = styled.Text`
   margin: auto;
-  font-family: 'Delius';
+  font-family: 'PoorStory';
   font-size: 12px;
 `;
 const ModalWrapper = styled.View`
@@ -98,7 +99,7 @@ const Apply = styled.View`
 `;
 const ApplyText = styled.Text`
   margin: auto;
-  font-family: 'Delius';
+  font-family: 'PoorStory';
   font-size: 12px;
 `;
 const ButtomContainer = styled.View`
@@ -123,7 +124,7 @@ const AddIgdBtn = styled.View`
 const AddIgdText = styled.Text``;
 const Blank = styled.View`
   height: 10px;
-  font-family: 'Delius';
+  font-family: 'PoorStory';
 `;
 const ModalInputContainer = styled.View`
   width: ${WIDTH}px;
@@ -136,7 +137,7 @@ const InputFromBR = styled.Text`
   text-align: center;
   /* background-color: lightyellow; */
   font-size: 12px;
-  font-family: 'Delius';
+  font-family: 'PoorStory';
 `;
 const ButtonContainer = styled.View`
   width: ${WIDTH * 0.8}px;
@@ -150,13 +151,14 @@ const ButtonContainer = styled.View`
 const ButtonText = styled.Text`
   color: gray;
   text-align: center;
+  font-family : 'PoorStory';
 `;
 const InputFlourText = styled.Text`
   width: ${WIDTH * 0.5}px;
   border-bottom-color: lightgray;
   border-bottom-width: 1px ;
   text-align: center;
-  font-family : 'Delius';
+  font-family : 'PoorStory';
   font-size : 12px;
   color: gray;
 `;
@@ -186,7 +188,7 @@ const Calculator = (cur) => {
   }
   const save = async() => {
     if(!title){
-      alert('이름을 입력해주세요');
+      Alert.alert('이름을 입력해주세요');
       return;
     }
     if(!valid()){
@@ -261,7 +263,8 @@ const Calculator = (cur) => {
   }, []);
 
   const [loaded] = Font.useFonts({
-    'Delius': require('../../../assets/fonts/Delius-Regular.ttf'),
+    'PoorStory': require('../../../assets/fonts/Delius-Regular.ttf'),
+    'PoorStory': require('../../../assets/fonts/PoorStory-Regular.ttf'),
   });
 
   useEffect(() => {
@@ -295,7 +298,7 @@ const Calculator = (cur) => {
             fontSize: 16,
             textAlign: 'center',
             marginTop: 10,
-            fontFamily: 'Delius',
+            fontFamily: 'PoorStory',
             fontSize: 12
           }}
           keyboardType={'numeric'}
@@ -319,7 +322,7 @@ const Calculator = (cur) => {
             borderBottomWidth: 1,
             fontSize: 12,
             textAlign: 'center',
-            fontFamily: 'Delius'
+            fontFamily: 'PoorStory'
           }}
         />
         <TouchableOpacity onPress={save}><SaveBtn>
@@ -373,7 +376,7 @@ const Calculator = (cur) => {
             marginBottom: 5,
             textAlign: 'center',
             height: HEIGHT*0.07,
-            fontFamily: 'Delius'
+            fontFamily: 'PoorStory'
           }}
         />
         <TextInput 
@@ -389,7 +392,7 @@ const Calculator = (cur) => {
             marginBottom: 5,
             textAlign: 'center',
             height: HEIGHT*0.07,
-            fontFamily: 'Delius'
+            fontFamily: 'PoorStory'
           }}
           keyboardType={'numeric'}
         />
@@ -466,7 +469,7 @@ const Calculator = (cur) => {
             marginBottom: 5,
             textAlign: 'center',
             height: HEIGHT*0.07,
-            fontFamily: 'Delius'
+            fontFamily: 'PoorStory'
           }}
         />
         <TextInput 
@@ -482,7 +485,7 @@ const Calculator = (cur) => {
             marginBottom: 5,
             textAlign: 'center',
             height: HEIGHT*0.07,
-            fontFamily: 'Delius'
+            fontFamily: 'PoorStory'
           }}
           keyboardType={'numeric'}
         />

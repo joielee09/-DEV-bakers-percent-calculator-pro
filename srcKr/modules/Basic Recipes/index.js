@@ -16,7 +16,7 @@ const HEIGHT = Dimensions.get('screen').height;
 const Wrapper = styled.View``;
 const Text = styled.Text`
   font-size: 15px;
-  font-family: 'Delius';
+  font-family: 'PoorStory';
 `;
 const TextContainer = styled.View`
   height: ${HEIGHT*0.08}px;
@@ -32,19 +32,19 @@ const TextContainer = styled.View`
 const Title = styled.Text`
   font-size: 20px;
   margin: 15px auto auto auto;
-  font-family: 'Delius';
+  font-family: 'PoorStory';
 `;
 const IngredientName = styled.Text`
   margin-top: 20px;
-  font-family: 'Delius';
+  font-family: 'PoorStory';
 `;
 const IngredientGram = styled.Text`
   margin-top: 20px;
-  font-family: 'Delius';
+  font-family: 'PoorStory';
 `;
 const Flour = styled.Text`
   margin: 5px auto auto auto;
-  font-family: 'Delius';
+  font-family: 'PoorStory';
 `;
 const CalBtnContainer = styled.View`
   width: ${WIDTH * 0.8}px;
@@ -99,7 +99,8 @@ const Basic = (cur) => {
     Navigation.navigate("Calculator",{inputFlour});
   }
   const [loaded] = Font.useFonts({
-    'Delius': require('../../../assets/fonts/Delius-Regular.ttf'),
+    'PoorStory': require('../../../assets/fonts/Delius-Regular.ttf'),
+    'PoorStory': require('../../../assets/fonts/PoorStory-Regular.ttf'),
   });
 
   useEffect(() => {

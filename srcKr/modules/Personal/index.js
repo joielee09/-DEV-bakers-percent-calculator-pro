@@ -28,24 +28,24 @@ const AlbumWrapper = styled.View`
 const Text = styled.Text`
   font-size: 13px;
   color: gray;
-  font-family: 'Delius';
+  font-family: 'PoorStory';
 `;
 const NameText = styled.Text`
   font-size: 13px;
   color: gray;
-  font-family: 'Delius';
+  font-family: 'PoorStory';
   width: ${WIDTH*0.4}px;
 `;
 const GramText = styled.Text`
   font-size: 13px;
   color: gray;
-  font-family: 'Delius';
+  font-family: 'PoorStory';
   width: ${WIDTH*0.2}px;
 `;
 const PerText = styled.Text`
   font-size: 13px;
   color: gray;
-  font-family: 'Delius';
+  font-family: 'PoorStory';
   width: ${WIDTH*0.2}px;
 `;
 const AlbumContainer = styled.View`
@@ -73,7 +73,7 @@ const Title = styled.Text`
   width: ${WIDTH*0.9}px;
   border-bottom-color: lightgray;
   border-bottom-width: 2px;
-  font-family: 'Delius';
+  font-family: 'PoorStory';
 `;
 const FlourText = styled.Text``;
 const Ingredient = styled.View``;
@@ -91,7 +91,7 @@ const ModeContainer = styled.View`
 `;
 const ModeText = styled.Text`
   font-size: 13px;
-  font-family: 'Delius';
+  font-family: 'PoorStory';
   margin: auto;
 `;
 const ImageContainer = styled.View`
@@ -111,7 +111,8 @@ export default Basic = () => {
   const [mode, setMode] = useState('listMode');
 
   Font.useFonts({
-      'Delius': require('../../../assets/fonts/Delius-Regular.ttf'),
+      'PoorStory': require('../../../assets/fonts/Delius-Regular.ttf'),
+      'PoorStory': require('../../../assets/fonts/PoorStory-Regular.ttf'),
   });
   const devlist = async() => {
     try{

@@ -26,7 +26,7 @@ const RecipeContainer = styled.View`
 `;
 const Title = styled.Text`
   font-size: 17px;
-  font-family: 'Delius';
+  font-family: 'PoorStory';
   width: ${WIDTH*0.4}px;
 `;
 
@@ -35,7 +35,8 @@ export default Basic = () => {
   const list = data.custom_list;
 
   const [loaded] = Font.useFonts({
-    'Delius': require('../../../assets/fonts/Delius-Regular.ttf'),
+    'PoorStory': require('../../../assets/fonts/Delius-Regular.ttf'),
+    'PoorStory': require('../../../assets/fonts/PoorStory-Regular.ttf'),
   });
   const loadAssets = () => {}
   const onFinish = () => {}

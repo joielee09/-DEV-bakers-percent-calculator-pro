@@ -19,12 +19,12 @@ const Wrapper = styled.View`
 `;
 const Text = styled.Text`
   font-size: 13px;
-  font-family: 'Delius';
+  font-family: 'PoorStory';
   width: ${WIDTH*0.19}px;
 `;
 const NameText = styled.Text`
   font-size: 13px;
-  font-family: 'Delius';
+  font-family: 'PoorStory';
   width: ${WIDTH*0.24}px;
 `;
 
@@ -52,7 +52,8 @@ const Ingredient = ( cur ) => {
   }
   
   const [loaded] = Font.useFonts({
-    'Delius': require('../../../assets/fonts/Delius-Regular.ttf'),
+    'PoorStory': require('../../../assets/fonts/Delius-Regular.ttf'),
+    'PoorStory': require('../../../assets/fonts/PoorStory-Regular.ttf'),
   });
 
   if(loaded){

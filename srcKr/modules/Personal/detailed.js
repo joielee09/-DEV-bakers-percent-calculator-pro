@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
-import { Dimensions, ScrollView, TextInput, Image, Alert } from 'react-native';
+import { Dimensions, ScrollView, TextInput, Image, Alert, Modal } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
@@ -20,30 +20,30 @@ const HEIGHT = Dimensions.get('screen').height;
 const Wrapper = styled.View``;
 const RecipeTitle = styled.Text`
   font-size: 18px;
-  font-family: 'Delius';
+  font-family: 'PoorStory';
   height: 30px;
 `;
 const Text = styled.Text`
   font-size: 13px;
   color: gray;
-  font-family: 'Delius';
+  font-family: 'PoorStory';
 `;
 const NameText = styled.Text`
   font-size: 13px;
   color: gray;
-  font-family: 'Delius';
+  font-family: 'PoorStory';
   width: ${WIDTH*0.4}px;
 `;
 const GramText = styled.Text`
   font-size: 13px;
   color: gray;
-  font-family: 'Delius';
+  font-family: 'PoorStory';
   width: ${WIDTH*0.2}px;
 `;
 const PerText = styled.Text`
   font-size: 13px;
   color: gray;
-  font-family: 'Delius';
+  font-family: 'PoorStory';
   width: ${WIDTH*0.2}px;
 `;
 const Container = styled.View`
@@ -68,7 +68,7 @@ const TitleContainer = styled.View`
 const Title = styled.Text`
   font-size: 28px;
 
-  font-family: 'Delius';
+  font-family: 'PoorStory';
   margin: auto;
 `;
 const TextContainer = styled.View`
@@ -94,7 +94,7 @@ const ButtonContainer = styled.View`
 
 const RateEmo = styled.Text`
   font-size: 14px;
-  font-family: 'Delius';
+  font-family: 'PoorStory';
   margin: auto;
   color: gray;
 `;
@@ -151,6 +151,7 @@ const DelButtonView = styled.View`
 `;
 const FlourText = styled.Text`
   color: lightgray;
+  font-family: 'PoorStory'
 `;
 const SnapContainer = styled.View`
   width: 300px;
@@ -296,7 +297,8 @@ const detailed = (cur) => {
   }
   
   Font.useFonts({
-      'Delius': require('../../../assets/fonts/DelaGothicOne-Regular.ttf'),
+      'PoorStory': require('../../../assets/fonts/DelaGothicOne-Regular.ttf'),
+      'PoorStory': require('../../../assets/fonts/PoorStory-Regular.ttf'),
   });
   
   const loadAssets = async () => {
@@ -510,7 +512,7 @@ const detailed = (cur) => {
               borderWidth: 0.2,
               marginBottom: 10,
               borderColor: 'lightgray',
-              fontFamily: 'Delius',
+              fontFamily: 'PoorStory',
               textAlign: 'center'
               }}
             placeholder="자세한 설명을 입력해주세요"
