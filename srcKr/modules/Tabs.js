@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import PublicRecipesList from './PublicRecipes/ListContainer'
 import Calculator from './Calculator';
-import Personal from './Personal';
+import Personal from './Personal/ListContainer';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';

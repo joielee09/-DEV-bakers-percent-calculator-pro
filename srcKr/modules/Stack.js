@@ -4,8 +4,8 @@ import Tab from './Tabs';
 import PublicRecipesList from './PublicRecipes/ListContainer'
 import PublicRecipesDetailed from './PublicRecipes/DetailedPresenter'
 import Calculator from './Calculator'
-import Personal from './Personal'
-import detailed from './Personal/detailed';
+import Personal from './Personal/ListContainer'
+import detailed from './Personal/Detailed';
 
 const Stack = createStackNavigator();
 

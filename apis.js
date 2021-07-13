@@ -14,30 +14,23 @@ export const getPublicRecipeData = async () => {
             {headers}
         )
         return result.data
-        // .then((res) => {
-        //     // console.log("axios working ✅",res.data); // console for checking axios
-        //     return result;
-        // })
     }
     catch (e) {
         console.log(e);
     }
 }
 
-export const getUserData = async (USER_ID) => {
+export const getPrivateRecipe = async (USER_ID) => {
 try {
         const data={
             "USER_ID":USER_ID
         }
-        await axios.post(
-            `https://fbo2vnjyz6.execute-api.ap-northeast-2.amazonaws.com/baker_stage/get_user`,
+        const result = await axios.post(
+            `https://fbo2vnjyz6.execute-api.ap-northeast-2.amazonaws.com/baker_stage/get_private_recipe`,
             data,
             {headers},
         )
-        .then((res) => {
-            console.log("axios working ✅",res.data); // console for checking axios
-            return res.data
-        })
+        return result.data
     }
     catch (e) {
         console.log(e);

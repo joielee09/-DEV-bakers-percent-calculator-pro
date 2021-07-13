@@ -101,8 +101,9 @@ const ImageContainer = styled.View`
   flex-wrap: wrap;
 `;
 
-export default Basic = () => {
+export default Basic = ({refreshFn, loading, recipes}) => {
   
+  // console.log("recipes in private list presenter: ", recipes);
   const [localList, setLocalList] = useState();
   const [update, setUpdate] = useState(false);
   const [input1, setInput1] = useState('hello snehal');
@@ -148,6 +149,7 @@ export default Basic = () => {
     Navigation.addListener('focus', ()=>devlist())
     // console.log("leave update status: ", update);
   }, []);
+
   const goToDetail = (currentRecipe) => { 
     Navigation.navigate("detailed",{currentRecipe})
   }
@@ -195,7 +197,7 @@ export default Basic = () => {
         </Mode>
           <AlbumWrapper>
               <ImageContainer>
-        {localList.map((cur, index)=>
+        {recipes.map((cur, index)=>
           <TouchableOpacity
             onLongPress={() => copyToClipboard(cur)}
             onPress={() => goToDetail(cur)}
@@ -203,11 +205,7 @@ export default Basic = () => {
           >
           <AlbumContainer key={cur[0]} >
             <Image
-                source={{
-                  uri: (JSON.parse(cur[1]).image === undefined)
-                    ? "https://i.stack.imgur.com/y9DpT.jpg"
-                    : JSON.parse(cur[1]).image
-                }}
+                source={{ uri: cur.IMAGE }}
                 style={{
                   width: WIDTH*0.293,
                   height: WIDTH*0.293,
@@ -259,21 +257,17 @@ export default Basic = () => {
         </Mode>
 
           <Wrapper>
-        {localList.map(cur=>
+        {recipes.map(cur=>
           <TouchableOpacity
             onLongPress={() => copyToClipboard(cur)}
             onPress={() => goToDetail(cur)}
             key={parseInt(localList.indexOf(cur))+parseInt(100)}
           >
-          <Container key={cur[0]} >
-          <Title>{cur[0]}</Title>
+          <Container key={cur.RECIPE_ID} >
+          <Title>{cur.TITLE}</Title>
 
             <Image
-                source={{
-                  uri: (JSON.parse(cur[1]).image === undefined)
-                    ? "https://i.stack.imgur.com/y9DpT.jpg"
-                    : JSON.parse(cur[1]).image
-                }}
+                source={{ uri: cur.IMAGE }}
                 style={{
                   width: WIDTH*0.9,
                   height: WIDTH*0.65*0.7,
@@ -282,23 +276,6 @@ export default Basic = () => {
                   borderRadius: 10,
                 }}
             />
-
-          {/* <Ingredient>
-          {
-            JSON.parse(cur[1]).tray.map((igd, index) => {
-            // console.log("tray: ", JSON.parse(cur[1]).tray)
-            return(
-              <TextContainer
-                key={index}
-              >
-                <NameText>{igd.inputName} </NameText>
-                <GramText>{igd.inputGram}(g)  </GramText>
-                <PerText>{igd.percentage}(%)</PerText>
-              </TextContainer>
-            )
-              }
-            )}
-            </Ingredient> */}
 
           </Container>
           </TouchableOpacity>

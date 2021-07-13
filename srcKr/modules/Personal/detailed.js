@@ -178,18 +178,25 @@ const ConfirmContainer = styled.View`
   flex-wrap: wrap;
 `;
 
-const detailed = (cur) => {
+const detailed = (
+  {
+    dispatch,
+    navigation,
+    route:{
+      params: {currentRecipe}
+    }
+  }
+) => {
 
+  console.log("cur in private detailed: ",currentRecipe);
   // set temp user_id
   const USER_ID = 1;
-  
-  const data = cur.route.params.currentRecipe;
-  const key = data[0];
-  const tray = JSON.parse(data[1])['tray'];
+  // const key = data[0];
+  // const tray = JSON.parse(data[1])['tray'];
   const fixedTray = [];
-  const flourObject = tray.filter(cur => cur.inputName === 'flour');
-  fixedTray.push(flourObject[0]);
-  tray.map(cur => (cur.inputName !== 'flour') ? fixedTray.push(cur): '');
+  // const flourObject = tray.filter(cur => cur.inputName === 'flour');
+  // fixedTray.push(flourObject[0]);
+  // tray.map(cur => (cur.inputName !== 'flour') ? fixedTray.push(cur): '');
 
   const [localList, setLocalList] = useState();
   const [update, setUpdate] = useState(false);
@@ -307,12 +314,12 @@ const detailed = (cur) => {
   });
   
   const loadAssets = async () => {
-    let item = await AsyncStorage.getItem(key);
+    // let item = await AsyncStorage.getItem(key);
     // console.log("item in load Assets: ", item);
-    item = JSON.parse(item);
-      if(item.image!==undefined)  setImgUri(item.image);
-      if(item.rating!==undefined) setRate(item.rating);
-    if (item.review !== undefined) onChangeText(item.review);
+    // item = JSON.parse(item);
+    // if(item.image!==undefined)  setImgUri(item.image);
+    // if(item.rating!==undefined) setRate(item.rating);
+    // if (item.review !== undefined) onChangeText(item.review);
   }
   const onFinish = () => {
     setUpdate(true);
@@ -391,38 +398,40 @@ const detailed = (cur) => {
   useEffect(() => {
   }, [rate]);
 
-  React.useEffect(
-    () =>
-      Navigation.addListener('beforeRemove', (e) => {
-        if (!changed) {
-          return;
-        }
+  // React.useEffect(
+  //   () =>
+  //     Navigation.addListener('beforeRemove', (e) => {
+  //       if (!changed) {
+  //         return;
+  //       }
 
-        e.preventDefault();
-        Alert.alert(
-          '',
-        '뒤로 가기 전에 저장해주세요.\n\n(다시 한 번 뒤로가기를 누르면 저장 없이 나갈 수 있습니다.)',
-          [
-            {
-              text: '확인',
-              style: 'destructive',
-              onPress: () => handleUpdate(key),
-            },
-          ]
-        );
-      }),
-    [Navigation, changed]
-  );
+  //       e.preventDefault();
+  //       Alert.alert(
+  //         '',
+  //       '뒤로 가기 전에 저장해주세요.\n\n(다시 한 번 뒤로가기를 누르면 저장 없이 나갈 수 있습니다.)',
+  //         [
+  //           {
+  //             text: '확인',
+  //             style: 'destructive',
+  //             // onPress: () => handleUpdate(key),
+  //           },
+  //         ]
+  //       );
+  //     }),
+  //   [Navigation, changed]
+  // );
 
   if (update) {
     return (
       <ScrollView>
       <Wrapper>
-          <TitleContainer><Title>{key}</Title></TitleContainer>
+          <TitleContainer><Title>{currentRecipe.TITLE}</Title></TitleContainer>
+
+
           {/* Picture */}
           <ImageContainer>
             <Image
-              source={{ uri: imgUri }}
+              source={{ uri: currentRecipe.IMAGE }}
               style={{ width: WIDTH * 0.9, height: WIDTH * 0.9 * 0.8 }}
               />
           </ImageContainer>
@@ -443,14 +452,17 @@ const detailed = (cur) => {
           </ImageButtonContainer>
           
           <DetailedContainer>
+
+
+          
             {/* Recipe */}
             <RateEmo>{`[ 레시피 ]`}</RateEmo>
           <TouchableOpacity
-            onLongPress={() => copyToClipboard(data)}
+            onLongPress={() => copyToClipboard(currentRecipe.TRAY)}
           >
           <RecipeContainer>
             {
-              fixedTray.map((cur, index) => (
+              currentRecipe.TRAY.map((cur, index) => (
                 <TextContainer
                   key={index}
                 >
@@ -465,10 +477,12 @@ const detailed = (cur) => {
             
             <FlourText>* flour: 밀가루 총량</FlourText>
             <FlourText>* 길게 누르면 레시피 내용이 복사됩니다. </FlourText>
+          
+          
           {/* Review */}
           <ReviewContainer>
             <ButtonContainer>
-            <RateEmo>{`[ 점수: ${rate}/5 ]`}</RateEmo>
+            <RateEmo>{`[ 점수: ${currentRecipe.RATING}/5 ]`}</RateEmo>
               <StarContainer>
               <TouchableOpacity
                 onPress={()=>setRate('1')}
@@ -532,10 +546,10 @@ const detailed = (cur) => {
           <TouchableOpacity onPress={handleCal}>
             <CalButtonView><ImageButtonText>계산기로 이동하기</ImageButtonText></CalButtonView>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => updateList(key)}>
+          <TouchableOpacity onPress={() => updateList(currentRecipe.RECIPE_ID)}>
             <CalButtonView><ImageButtonText>저장하기</ImageButtonText></CalButtonView>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleDelete(key)}>
+          <TouchableOpacity onPress={() => handleDelete(currentRecipe.RECIPE_ID)}>
             <DelButtonView><DelImageButtonText>삭제하기</DelImageButtonText></DelButtonView>
           </TouchableOpacity>
 
@@ -548,7 +562,7 @@ const detailed = (cur) => {
             positiveButton={{
               title: "YES",
               onPress: () => {
-                updateList(key);
+                updateList(currentRecipe.RECIPE_ID);
                 Navigation.goBack();
               }
             }}
