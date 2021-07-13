@@ -57,6 +57,7 @@ const CalBtnContainer = styled.View`
 `;
 const CalBtnText = styled.Text`
   text-align: center;
+  font-family: 'PoorStory';
 `;
 
 const Basic = (cur) => {

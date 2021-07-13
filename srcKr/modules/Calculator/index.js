@@ -9,6 +9,7 @@ import AppLoading from 'expo-app-loading';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer, useNavigation  } from "@react-navigation/native";
 import * as Font from 'expo-font';
+import ModalComponent from '../../component/alertModals/ingredientAlertModal';
 
 const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
@@ -162,6 +163,21 @@ const InputFlourText = styled.Text`
   font-size : 12px;
   color: gray;
 `;
+const AlertModalWrapper = styled.View`
+  height: ${HEIGHT*0.1}px;
+  width: ${HEIGHT*0.2*1.6}px;
+  background-color: #fff;
+  margin-top: ${HEIGHT*0.25}px;
+  margin-right: auto;
+  margin-left: auto;
+`;
+const AlertModalTextContainer = styled.View`
+  background-color: #fff;
+  height: ${HEIGHT*0.15}px;
+  width: ${HEIGHT*0.2*1.6}px;
+  align-items: center;
+  padding-top: ${HEIGHT*0.04}px;
+`;
 
 
 const Calculator = (cur) => {
@@ -174,6 +190,8 @@ const Calculator = (cur) => {
   const [inputName, setInputName] = useState('');
   const [inputGram, setInputGram] = useState(0.0);
   const [title, setTitle] = useState('');
+  const [IngedientAlertModalVisible,setIngedientAlertModalVisible] = useState(false);
+  const [nameAlertModalVisible,setNameAlertModalVisible] = useState(false);
   const nameList = '';
 
   const valid = () => {
@@ -182,13 +200,14 @@ const Calculator = (cur) => {
   const add = (category) => {
     if (category === 'igd') {
       if (inputFlour || inputFromBR) setModalVisible(true);
-      else alert(`밀가루를 먼저 추가해주세요`);
+      else setIngedientAlertModalVisible(true);
     }
     if (category === 'flour') setFlourModalVisible(true)
   }
   const save = async() => {
     if(!title){
-      Alert.alert('이름을 입력해주세요');
+      // Alert.alert('이름을 입력해주세요');
+      setNameAlertModalVisible(true);
       return;
     }
     if(!valid()){
@@ -438,8 +457,6 @@ const Calculator = (cur) => {
           >
             <ButtonContainer><ButtonText>GO BACK</ButtonText></ButtonContainer>
         </Pressable>
-
-
         </ModalWrapper>
       </Modal>
 
@@ -537,12 +554,43 @@ const Calculator = (cur) => {
           >
             <ButtonContainer><ButtonText>뒤로가기</ButtonText></ButtonContainer>
         </Pressable>
-
-
         </ModalWrapper>
       </Modal>
+      
+      <Modal
+        animationType="none"
+        transparent={true}
+        visible={IngedientAlertModalVisible}
+      >
+      <AlertModalWrapper>
+      <Pressable
+          onPress={
+          ()=> setIngedientAlertModalVisible(!IngedientAlertModalVisible)
+          }
+      >
+        <AlertModalTextContainer><Text>밀가루를 먼저 추가해주세요.</Text></AlertModalTextContainer>
+      </Pressable>
+      </AlertModalWrapper>
+      </Modal>
 
+      <Modal
+        animationType="none"
+        transparent={true}
+        visible={nameAlertModalVisible}
+      >
+      <AlertModalWrapper>
+      <Pressable
+          onPress={
+          ()=> setNameAlertModalVisible(!nameAlertModalVisible)
+          }
+      >
+        <AlertModalTextContainer><Text>이름을 입력해주세요.</Text></AlertModalTextContainer>
+      </Pressable>
+      </AlertModalWrapper>
+      </Modal>
 
+      {/* alert modal 모듈화 */}
+      {/* <ModalComponent cur={[true, "밀가루를 먼저 추가해주세요"]}/> */}
 
     </Wrapper>
   )

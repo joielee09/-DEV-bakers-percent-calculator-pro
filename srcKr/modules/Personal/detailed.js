@@ -67,7 +67,6 @@ const TitleContainer = styled.View`
 `;
 const Title = styled.Text`
   font-size: 28px;
-
   font-family: 'PoorStory';
   margin: auto;
 `;
@@ -102,6 +101,7 @@ const RateEmo = styled.Text`
 const Star = styled.Text`'
   margin: 10px;
   font-size: 18px;
+  font-family: 'PoorStory';
 `;
 const StarContainer = styled.View`
   flex-direction: row;
@@ -125,10 +125,12 @@ const ImageButtonView = styled.View`
 `;
 const ImageButtonText = styled.Text`
   text-align: center;
+  font-family: 'PoorStory';
 `;
 const DelImageButtonText = styled.Text`
   text-align: center;
   color: tomato;
+  font-family: 'PoorStory';
 `;
 const CalButtonView = styled.View`
   width: ${WIDTH * 0.8}px;
@@ -380,7 +382,7 @@ const detailed = (cur) => {
     })
     // console.log(recipe);
     Clipboard.setString(recipe);
-    alert(`[${title}] recipe copied !`)
+    alert(`[${title}]이 복사되었습니다.`)
   };
 
   useEffect(() => {
