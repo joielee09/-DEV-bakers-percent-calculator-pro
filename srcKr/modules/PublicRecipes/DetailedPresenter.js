@@ -53,7 +53,7 @@ const CalBtnContainer = styled.View`
   border-radius: 10px;
   border: 0.5px gray solid;
   margin: auto;
-  margin-bottom: 5px;
+  margin-bottom: 70px;
 `;
 const CalBtnText = styled.Text`
   text-align: center;

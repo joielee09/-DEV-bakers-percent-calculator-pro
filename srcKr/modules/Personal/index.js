@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
-import { Dimensions, Pressable, ScrollView, RefreshControl, Image, Button } from 'react-native';
+import { Alert, Dimensions, Pressable, ScrollView, RefreshControl, Image, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppLoading from 'expo-app-loading';
 import { AntDesign } from '@expo/vector-icons';
@@ -171,7 +171,7 @@ export default Basic = () => {
     })
     // console.log(recipe);
     Clipboard.setString(recipe);
-    alert(`[${title}] recipe copied !`)
+    Alert.alert(`[${title}] 가 복사되었습니다. 🍪`)
   };
 
   // console.log("localList: ", localList);

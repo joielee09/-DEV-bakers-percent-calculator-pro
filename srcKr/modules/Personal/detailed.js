@@ -100,7 +100,7 @@ const RateEmo = styled.Text`
 
 const Star = styled.Text`'
   margin: 10px;
-  font-size: 18px;
+  font-size: 28px;
   font-family: 'PoorStory';
 `;
 const StarContainer = styled.View`
@@ -180,6 +180,9 @@ const ConfirmContainer = styled.View`
 
 const detailed = (cur) => {
 
+  // set temp user_id
+  const USER_ID = 1;
+  
   const data = cur.route.params.currentRecipe;
   const key = data[0];
   const tray = JSON.parse(data[1])['tray'];
@@ -382,7 +385,7 @@ const detailed = (cur) => {
     })
     // console.log(recipe);
     Clipboard.setString(recipe);
-    alert(`[${title}]이 복사되었습니다.`)
+    Alert.alert(`[${title}]이 복사되었습니다. 🍪`)
   };
 
   useEffect(() => {
@@ -469,38 +472,38 @@ const detailed = (cur) => {
               <StarContainer>
               <TouchableOpacity
                 onPress={()=>setRate('1')}
-                ><Star>❤</Star>
+                ><Star>❤ </Star>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={()=>setRate('2')}
               >{
                   rate >= '2'
-                  ? <Star>❤</Star>
-                  : <Star>🖤</Star>
+                  ? <Star>❤ </Star>
+                  : <Star>🖤 </Star>
                 }
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={()=>setRate('3')}
               >{
                   rate >= '3'
-                  ? <Star>❤</Star>
-                  : <Star>🖤</Star>
+                  ? <Star>❤ </Star>
+                  : <Star>🖤 </Star>
                 }
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={()=>setRate('4')}
               >{
                   rate >= '4'
-                  ? <Star>❤</Star>
-                  : <Star>🖤</Star>
+                  ? <Star>❤ </Star>
+                  : <Star>🖤 </Star>
                 }
               </TouchableOpacity>
                             <TouchableOpacity
                 onPress={()=>setRate('5')}
               >{
                   rate >= '5'
-                  ? <Star>❤</Star>
-                  : <Star>🖤</Star>
+                  ? <Star>❤ </Star>
+                  : <Star>🖤 </Star>
                 }
               </TouchableOpacity>
               </StarContainer>
