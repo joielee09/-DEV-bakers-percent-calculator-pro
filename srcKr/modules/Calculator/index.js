@@ -178,7 +178,7 @@ const Calculator = (cur) => {
   const nameList = '';
 
   const valid = () => {
-    return title && flourStore.getState().totalFlour && (store.getState().TRAY.length!=0);
+    return title && total_flour && (TRAY.length!=0);
   }
 
   // 밀가루 또는 재료 추가 모달
@@ -230,7 +230,7 @@ const Calculator = (cur) => {
       "RECIPE_ID":21, // automatically escalate
       "REVIEW": "",
       "TITLE": title,
-      "TRAY": list.TRAY,
+      "TRAY": TRAY,
       "USER_ID": 4, // get user id in localStorage
       "AUTHOR": "프랑스 참새", // get name of user in localStorage
       "LIEKS": 0,
@@ -396,12 +396,6 @@ const Calculator = (cur) => {
         <TouchableOpacity onPress={()=>add('igd')}><AddBtn>
         <AddText>재료 추가</AddText>
         </AddBtn></TouchableOpacity>
-
-        <Pressable onPress={()=>{
-          console.log("TRAY: ", TRAY)
-        }}>
-          <ButtonContainer><ButtonText>TRAY 확인</ButtonText></ButtonContainer>
-        </Pressable>
 
       </ButtomContainer>
 

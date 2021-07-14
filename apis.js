@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const headers={
-    'x-api-key': '',
+    'x-api-key': 'VdlzJiifdv5h43Hs5dRh881dWVPFjzsQ1U3D1cH5',
     'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
     'Accept': '*/*',
     'Connection': 'keep-alive'
@@ -11,7 +11,7 @@ const headers={
 export const getPublicRecipeData = async () => {
     try {
         const result = await axios.get(
-            ``,
+            `https://fbo2vnjyz6.execute-api.ap-northeast-2.amazonaws.com/baker_stage/get_public_recipe`,
             {headers}
         )
         return result.data
@@ -28,7 +28,7 @@ try {
             "USER_ID":USER_ID
         }
         const result = await axios.post(
-            ``,
+            `https://fbo2vnjyz6.execute-api.ap-northeast-2.amazonaws.com/baker_stage/get_private_recipe`,
             data,
             {headers},
         )
@@ -79,7 +79,8 @@ try {
         ],
         "USER_ID":3,
         "AUTHOR": "프랑스참새", (localStorage의 정보 넣기)
-        "LIKES": 0
+        "LIKES": 0,
+        "TOTAL_FLOUR": 1700
     }
 */
 
