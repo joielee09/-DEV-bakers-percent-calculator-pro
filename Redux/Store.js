@@ -1,7 +1,7 @@
 import { createStore } from 'redux';
 
 const initState = {
-  tray: []
+  TRAY: []
 }
 
 const personalState = {
@@ -19,20 +19,20 @@ const Reducer = ( state=initState, action ) => {
     case 'deleteIgd':
       console.log("deleted")
       const item = action.value;
-      state.tray = state.tray.filter(cur=>cur.inputName!==item)
+      state.TRAY = state.TRAY.filter(cur=>cur.inputName!==item)
       return {
         ...state
       }
     case 'addIgd':
       console.log("add")
-      state.tray.push(action.value)
-      // console.log("action value",state.tray);
+      state.TRAY.push(action.value)
+      // console.log("action value",state.TRAY);
       return {
         ...state
       }
     case 'brToCal':
-      state.tray = action.value.list;
-      // console.log("tray state: ",state.tray);
+      state.TRAY = action.value.list;
+      // console.log("TRAY state: ",state.TRAY);
       return {
         ...state
       }
@@ -52,7 +52,7 @@ const Reducer = ( state=initState, action ) => {
       
       // infinity error in totalFlour===0
       if (totalFlour === 0) {
-        state.tray.map(cur=>{
+        state.TRAY.map(cur=>{
           cur.percentage = 0.0;
           cur.targetGram = 0.0;
         })
@@ -61,7 +61,7 @@ const Reducer = ( state=initState, action ) => {
         }
       }
 
-      state.tray.map(cur=>{
+      state.TRAY.map(cur=>{
         cur.percentage = (((cur.inputGram / totalFlour).toFixed(3))*100).toFixed(1);
         cur.targetGram = ((cur.inputGram / totalFlour)* parseInt(targetFlour)).toFixed(1);
       })
@@ -70,10 +70,10 @@ const Reducer = ( state=initState, action ) => {
       }
     case 'reset':
       return{
-        tray: []
+        TRAY: []
       }
     case 'validity':
-      const result = state.tray.indexOf(action.value);
+      const result = state.TRAY.indexOf(action.value);
       console.log("action value",action.value);
       if (result === -1) return false;
       else return true;

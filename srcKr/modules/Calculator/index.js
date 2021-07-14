@@ -180,8 +180,11 @@ const AlertModalTextContainer = styled.View`
   padding-top: ${HEIGHT*0.04}px;
 `;
 
+const TRAY = [];
+
 
 const Calculator = (cur) => {
+
 
   const [inputFromBR, setInputFromBR] = useState(flourStore.getState().totalFlour)
   const [inputFlour, setInputFlour] = useState('');
@@ -398,6 +401,12 @@ const Calculator = (cur) => {
         <AddText>재료 추가</AddText>
         </AddBtn></TouchableOpacity>
 
+        <Pressable onPress={()=>{
+          console.log("TRAY: ", TRAY)
+        }}>
+          <ButtonContainer><ButtonText>TRAY 확인</ButtonText></ButtonContainer>
+        </Pressable>
+
       </ButtomContainer>
 
       {/* ingredient modal */}
@@ -448,29 +457,42 @@ const Calculator = (cur) => {
               // validity check: ingredient element identify based
               const res = store.getState().TRAY.filter(cur=>cur.inputName===inputName);
               console.log("res", res);
+              
+              // 이름 중복 확인
               if (res.length !== 0) {
-                alert('이미 입력된 이름입니다.');
+                Alert.alert('이미 입력된 이름입니다.');
                 setInputName('');
                 setInputGram('');
                 return;
               }
+              // 무입력 확인
               if (inputName === '') return;
               if (inputGram === '') return;
-            store.dispatch({
-              type:'addIgd',
-              value:{
+
+              TRAY.push({
                 "inputName":inputName, 
                 "inputGram":inputGram,
                 "percentage": 0,
                 "targetGram": 0,
                 "flag": true,
-                "flourInput": false,
-              }
-            })
-            // setModalVisible(!modalVisible);
-            setInputName('');
-            setInputGram('');
-            alert('재료가 추가되었습니다');
+                "flourInput": false
+              })
+
+              store.dispatch({
+                type:'addIgd',
+                value:{
+                  "inputName":inputName, 
+                  "inputGram":inputGram,
+                  "percentage": 0,
+                  "targetGram": 0,
+                  "flag": true,
+                  "flourInput": false,
+                }
+              })
+              // setModalVisible(!modalVisible);
+              setInputName('');
+              setInputGram('');
+              alert('재료가 추가되었습니다');
           }}
         ><ButtonContainer><ButtonText>재료 추가</ButtonText></ButtonContainer>
             </Pressable>
