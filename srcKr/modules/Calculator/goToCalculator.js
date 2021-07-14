@@ -17,6 +17,13 @@ const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
 
 const Wrapper = styled.View``;
+const IngredientWrapper = styled.View`
+  height: 50px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 10px;
+  justify-content: space-around;
+`;
 const Text = styled.Text`
   font-size: 15px;
   font-family : 'PoorStory';
@@ -159,28 +166,27 @@ const AlertModalTextContainer = styled.View`
   align-items: center;
   padding-top: ${HEIGHT*0.04}px;
 `;
-const IngredientWrapper = styled.View`
-  height: 50px;
-  flex-direction: row;
-  flex-wrap: wrap;
-  padding: 10px;
-  justify-content: space-around;
-`;
 
-let TRAY = [];
-let total_flour=0;
+// let TRAY = [];
+
 
 const Calculator = ({
   dispatch,
   navigation,
   route:{
-    params
+    params:{
+      cur
+    }
   }
 }) => {
-  console.log("cur in cal index:", params);
-  // const navigation = useNavigation();
-  
-  const [inputFromBR, setInputFromBR] = useState(flourStore.getState().totalFlour)
+  console.log("cur in cal index:", cur.TITLE);
+  // cur.TRAY.map(cur=>TRAY.push(cur));
+  // total_flour = cur.TOTAL_FLOUR;
+  // console.log("TRAY: ",cur.TRAY)
+
+  const [TRAY, setTRAY] = useState(cur.TRAY);
+  const [total_flour, set_total_flour] = useState(cur.TOTAL_FLOUR);
+  const [inputFromBR, setInputFromBR] = useState(flourStore.getState().totalFlour);
   const [inputFlour, setInputFlour] = useState('');
   const [targetFlour, setTargetFlour] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
@@ -193,29 +199,31 @@ const Calculator = ({
   const [pageReload, setPageReload] = useState(true)
   const nameList = '';
 
+  const reset = () => {
+    console.log("초기화!")
+    setTRAY([]);
+    set_total_flour('');
+    setTargetFlour('');
+    setTitle('');
+    setPageReload(!pageReload)
+  }
+
   const deleteItem = (itemName) =>{
     console.log(itemName)
-    const filtered=[]
-    TRAY.map(cur=>{
-      if(cur.inputName===itemName){
-        total_flour=parseInt(total_flour)-parseInt(cur.inputGram);
-        filtered.push(cur)
-      }
-    })
-    TRAY = filtered;
-    setPageReload(!pageReload)
+    const filtered = TRAY.filter(cur=>cur.inputName!==itemName);
+    console.log("item deleted: ",filtered)
+    setTRAY(filtered);
   }
   const valid = () => {
     return title && total_flour && (TRAY.length!=0);
   }
 
-
   // 밀가루 또는 재료 추가 모달
   const add = (category) => {
     // inputFlour가 없는 경우 경고페이지
-    if (category === 'igd') {
-      if (inputFlour || inputFromBR) setModalVisible(true);
-      else setIngedientAlertModalVisible(true);
+    if (category === 'igd') { 
+      if (total_flour===0) setIngedientAlertModalVisible(true);
+      else setModalVisible(true);
     }
     if (category === 'flour') setFlourModalVisible(true)
   }
@@ -268,13 +276,6 @@ const Calculator = ({
     Alert.alert('저장되었습니다!')
   }
 
-  // const devList = () => {console.log(store.getState());}
-  // const devstorageList = async() => {
-  //   const keys = await AsyncStorage.getAllKeys();
-  //     const localList = await AsyncStorage.multiGet(keys);
-  //     // console.log(localList);  
-  // } 
-
   // 적용하기 버튼
   const apply = () => {
     // check current input, target flour status
@@ -311,15 +312,6 @@ const Calculator = ({
     //   targetFlour: targetHelper 
     // })
 
-  }
-
-  const reset = () => {
-    console.log("초기화!")
-    TRAY=[];
-    total_flour=0;
-    setTargetFlour('');
-    setTitle('');
-    setPageReload(!pageReload)
   }
 
   const loadAssets = () => {
@@ -397,7 +389,7 @@ const Calculator = ({
       <ScrollView>
         {
           TRAY.map(cur=>
-            <>
+          <>
             <IngredientWrapper>
             <Ingredient key={`${cur.inputName}${Date()}`} cur={cur}/>
             <Pressable  onPress={()=>deleteItem(cur.inputName)}>
@@ -498,20 +490,21 @@ const Calculator = ({
                 "inputGram":inputGram,
                 "percentage": 0,
                 "targetGram": 0,
-                "flag": false
+                "flag": true,
+                "flourInput": false
               })
 
-              store.dispatch({
-                type:'addIgd',
-                value:{
-                  "inputName":inputName, 
-                  "inputGram":inputGram,
-                  "percentage": 0,
-                  "targetGram": 0,
-                  "flag": true,
-                  "flourInput": false,
-                }
-              })
+              // store.dispatch({
+              //   type:'addIgd',
+              //   value:{
+              //     "inputName":inputName, 
+              //     "inputGram":inputGram,
+              //     "percentage": 0,
+              //     "targetGram": 0,
+              //     "flag": true,
+              //     "flourInput": false,
+              //   }
+              // })
               // setModalVisible(!modalVisible);
               setInputName('');
               setInputGram('');
@@ -606,18 +599,19 @@ const Calculator = ({
                 "flag": true,
                 "flourInput": true
               })
-              store.dispatch({
-                type:'addIgd',
-                value:{
-                "inputName":inputName, 
-                "inputGram":inputGram,
-                "percentage": 0,
-                "targetGram": 0,
-                "flag": true
-              }
-              })
+              // store.dispatch({
+              //   type:'addIgd',
+              //   value:{
+              //   "inputName":inputName, 
+              //   "inputGram":inputGram,
+              //   "percentage": 0,
+              //   "targetGram": 0,
+              //   "flag": true,
+              //   "flourInput": true,
+              // }
+              // })
 
-              total_flour = parseInt(total_flour)+parseInt(inputGram)
+              set_total_flour(parseInt(total_flour)+parseInt(inputGram))
               console.log("total flour is: ", total_flour)
               // flourStore.dispatch({
               //   type:'addFlour',
@@ -629,7 +623,6 @@ const Calculator = ({
             // reset TextArea
             setInputName('');
             setInputGram('');
-            setInputFromBR(total_flour);
             Alert.alert('밀가루가 추가되었습니다');
           }}
         ><ButtonContainer><ButtonText>밀가루 추가</ButtonText></ButtonContainer>
@@ -677,9 +670,6 @@ const Calculator = ({
       </Pressable>
       </AlertModalWrapper>
       </Modal>
-
-      {/* alert modal 모듈화 */}
-      {/* <ModalComponent cur={[true, "밀가루를 먼저 추가해주세요"]}/> */}
 
     </Wrapper>
   )

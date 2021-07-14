@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { Button, Dimensions, Pressable } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
+
 import { connect } from 'react-redux';
 import { store, flourStore } from '../../../Redux/Store';
 import * as Font from 'expo-font';
@@ -10,22 +10,24 @@ import AppLoading from 'expo-app-loading';
 const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
 
+// background-Color: blue;
 const Wrapper = styled.View`
-  height: 50px;
+  height: 0px;
+  width: ${WIDTH*0.8}px;
   flex-direction: row;
   flex-wrap: wrap;
-  padding: 10px;
-  justify-content: space-around;
+  padding: 0px;
+  background-Color: lightyellow;
 `;
 const Text = styled.Text`
-  font-size: 13px;
+  font-size: 15px;
   font-family: 'PoorStory';
-  width: ${WIDTH*0.19}px;
+  width: ${WIDTH*0.18}px;
 `;
 const NameText = styled.Text`
-  font-size: 13px;
+  font-size: 15px;
   font-family: 'PoorStory';
-  width: ${WIDTH*0.24}px;
+  width: ${WIDTH*0.22}px;
 `;
 
 const Ingredient = ( cur ) => {
@@ -64,14 +66,7 @@ const Ingredient = ( cur ) => {
       <Text>{cur.cur.percentage}(%)</Text>
       <Text>{cur.cur.targetGram}(g)</Text>
 
-      <Pressable  onPress={deleteItem}>
-        <AntDesign 
-          name="delete" 
-          size={18} 
-          color="gray"
-          style={{
-        }}/>
-      </Pressable>
+
 
     </Wrapper>
   )} else {

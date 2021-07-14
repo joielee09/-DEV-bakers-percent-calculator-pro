@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/native';
-import { Dimensions, ScrollView, Image } from 'react-native';
+import { Dimensions, ScrollView, Image, Pressable } from 'react-native';
 import * as brData from '../../../mockAPI/korean_customAPI.json';
 const data = brData;
 import AppLoading from 'expo-app-loading';
@@ -76,6 +76,34 @@ const Star = styled.Text`'
   font-size: 24px;
   font-family: 'PoorStory';
 `;
+const LikeBoxOFF = styled.View`
+  width: ${WIDTH*0.3}px;
+  height: ${WIDTH*0.3*0.4}px;
+  border-radius: 10px;
+  border: 1px solid gray;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  margin-top: 20px;
+`;
+const TextOFF = styled.Text`
+  color: gray;
+`;
+const LikeBoxON = styled.View`  
+  background-color: blue;
+  width: ${WIDTH*0.3}px;
+  height: ${WIDTH*0.3*0.4}px;
+  border-radius: 10px;
+  border: 1px solid gray;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  margin-top: 20px;
+`;
+const TextON = styled.Text`
+  color: white;
+`;
+
 
 const Basic = ({
   navigation,
@@ -83,30 +111,24 @@ const Basic = ({
     params: {cur}
   }
   }) => {
+  const [LIKES, setLIKES] = useState(false);
   const loaded = Font.useFonts({
     'PoorStory': require('../../../assets/fonts/Delius-Regular.ttf'),
     'PoorStory': require('../../../assets/fonts/PoorStory-Regular.ttf'),
   });  
-  console.log("cur in br spec: ",  cur);
+  // console.log("cur in br spec: ",  cur);
   
 
   const loadAssets = () => {}
   const onFinish = () => {}
 
+  const pressLike = () => {
+    // Todo : 해당 글의 LIKES를 증가시키는 함수
+    setLIKES(!LIKES);
+  }
+
   const goToCal = async() => {
-    // await store.dispatch({
-    //   type: 'brToCal',
-    //   value:{
-    //     list
-    //   }
-    // })
-    // await flourStore.dispatch({
-    //   type: 'addFlour',
-    //   value: {
-    //     "flour":inputFlour
-    //   }
-    // })
-    navigation.navigate("Calculator",{
+    navigation.navigate("GoToCalculator",{
       cur
     });
   }
@@ -125,6 +147,14 @@ const Basic = ({
             marginTop: 10
           }}
         />
+        <Pressable onPress={pressLike}>
+        {
+          LIKES
+          ? <LikeBoxON><TextON>LIKE IT 👍</TextON></LikeBoxON>
+          : <LikeBoxOFF><TextOFF>LIKE IT</TextOFF></LikeBoxOFF>
+        }
+          
+        </Pressable>
         <Title>{cur.TITLE}</Title>
         <Author>👨‍🍳 작성자: {cur.AUTHOR}</Author>
         <Text />
