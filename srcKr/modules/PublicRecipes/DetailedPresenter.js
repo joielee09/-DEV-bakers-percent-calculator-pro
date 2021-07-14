@@ -94,19 +94,21 @@ const Basic = ({
   const onFinish = () => {}
 
   const goToCal = async() => {
-    await store.dispatch({
-      type: 'brToCal',
-      value:{
-        list
-      }
-    })
-    await flourStore.dispatch({
-      type: 'addFlour',
-      value: {
-        "flour":inputFlour
-      }
-    })
-    navigate("Calculator",{inputFlour});
+    // await store.dispatch({
+    //   type: 'brToCal',
+    //   value:{
+    //     list
+    //   }
+    // })
+    // await flourStore.dispatch({
+    //   type: 'addFlour',
+    //   value: {
+    //     "flour":inputFlour
+    //   }
+    // })
+    navigation.navigate("Calculator",{
+      cur
+    });
   }
 
   if(loaded){

@@ -162,7 +162,10 @@ const AlertModalTextContainer = styled.View`
 const TRAY = [];
 let total_flour=0;
 
-const Calculator = (cur) => {
+const Calculator = ({
+  cur
+}) => {
+  console.log("cur in cal index:", cur);
 
   const [inputFromBR, setInputFromBR] = useState(flourStore.getState().totalFlour)
   const [inputFlour, setInputFlour] = useState('');
@@ -308,13 +311,6 @@ const Calculator = (cur) => {
     'PoorStory': require('../../../assets/fonts/Delius-Regular.ttf'),
     'PoorStory': require('../../../assets/fonts/PoorStory-Regular.ttf'),
   });
-
-  useEffect(() => {
-    if(cur.route.params!==undefined)  {
-      setInputFromBR(parseInt(cur.route.params.inputFlour));
-      setInputFlour(parseInt(cur.route.params.inputFlour));
-    }
-  }, [])
 
   if(loaded){
   return (

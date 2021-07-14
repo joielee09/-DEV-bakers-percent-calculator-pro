@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
-import { Dimensions, ScrollView, TextInput, Image, Alert, Modal } from 'react-native';
+import { Dimensions, ScrollView, TextInput, Image, Alert, Modal, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
@@ -18,6 +18,12 @@ const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
 
 const Wrapper = styled.View``;
+const LoadingWrapper = styled.View`
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+`;
 const RecipeTitle = styled.Text`
   font-size: 18px;
   font-family: 'PoorStory';
@@ -308,7 +314,7 @@ const detailed = (
     }
   }
   
-  Font.useFonts({
+  const [loaded] = Font.useFonts({
       'PoorStory': require('../../../assets/fonts/DelaGothicOne-Regular.ttf'),
       'PoorStory': require('../../../assets/fonts/PoorStory-Regular.ttf'),
   });
@@ -421,7 +427,7 @@ const detailed = (
   //   [Navigation, changed]
   // );
 
-  if (update) {
+  if (loaded) {
     return (
       <ScrollView>
       <Wrapper>
@@ -577,11 +583,9 @@ const detailed = (
     )
   } else {
     return (
-      <AppLoading 
-        startAsync={loadAssets}
-        onFinish={onFinish}
-        onError={console.warn}
-      />
+      <LoadingWrapper>
+      <ActivityIndicator color="#BB6767" size="large" />
+      </LoadingWrapper>
     )
   }
 }

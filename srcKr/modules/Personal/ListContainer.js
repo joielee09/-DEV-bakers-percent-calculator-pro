@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { getPrivateRecipe } from "../../../apis";
 import ListPresenter from "./ListPresenter";
-import { Text } from 'react-native';
+import styled from 'styled-components/native';
+import { ActivityIndicator } from "react-native";
+
+const Wrapper = styled.View`
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+`;
 
 export default () => {
+    const [ready, setReady] = useState(false);
+
     // tmp user id
     const USER_ID=4;
 
@@ -20,11 +30,19 @@ export default () => {
             recipes: res.Items,
             recipesError: null
         })
+        setReady(true)
     }
     useEffect(()=>{
         getData();
     }, []);
-
-    return <ListPresenter refreshFn={getData}{...recipes}/>
+    return (
+        ready
+        ? <ListPresenter refreshFn={getData}{...recipes}/>
+        : 
+        <Wrapper>
+        <ActivityIndicator color="#BB6767" size="large" />
+        </Wrapper>
+    )
+    // return <ListPresenter refreshFn={getData}{...recipes}/>
     // return <Text>hello</Text>
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { Dimensions,Image, ScrollView } from 'react-native';
+import { ActivityIndicator, Dimensions,Image, ScrollView } from 'react-native';
 import * as brData from '../../../mockAPI/korean_customAPI.json';
 let data = brData;
 import AppLoading from 'expo-app-loading';
@@ -12,6 +12,12 @@ const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
 
 const Wrapper = styled.View``;
+const LoadingWrapper = styled.View`
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+`;
 const Text = styled.Text`
   font-size: 12px;
 `;
@@ -96,11 +102,9 @@ export default Basic = ({refreshFn, loading, recipes}) => {
     </ScrollView>
   )} else {
     return(
-      <AppLoading 
-        startAsync={loadAssets}
-        onFinish={onFinish}
-        onError={console.warn}
-      />
+      <LoadingWrapper>
+      <ActivityIndicator color="#BB6767" size="large" />
+      </LoadingWrapper>
     )
   }
 }
