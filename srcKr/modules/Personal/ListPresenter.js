@@ -156,7 +156,7 @@ export default Basic = ({refreshFn, loading, recipes}) => {
 
   const copyToClipboard = (cur) => {
     const title = cur[0];
-    let data = JSON.parse(cur[1]).tray;
+    let data = JSON.parse(cur[1]).TRAY;
     console.log("data in personal index: ", data);
     let recipe = `${title} \n\n`;
     let flourRecipe=[];

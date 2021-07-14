@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer, useNavigation  } from "@react-navigation/native";
 import * as Font from 'expo-font';
 import ModalComponent from '../../component/alertModals/ingredientAlertModal';
+import { makePrivateRecipe } from "../../../apis";
 
 const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
@@ -195,7 +196,7 @@ const Calculator = (cur) => {
   const nameList = '';
 
   const valid = () => {
-    return title && flourStore.getState().totalFlour && (store.getState().tray.length!=0);
+    return title && flourStore.getState().totalFlour && (store.getState().TRAY.length!=0);
   }
   const add = (category) => {
     if (category === 'igd') {
@@ -205,33 +206,58 @@ const Calculator = (cur) => {
     if (category === 'flour') setFlourModalVisible(true)
   }
   const save = async() => {
+    // 이름이 없는 경우
     if(!title){
-      // Alert.alert('이름을 입력해주세요');
       setNameAlertModalVisible(true);
       return;
     }
+    // 재료가 없는 경우
     if(!valid()){
       alert('재료를 입력해주세요');
       return;
     }
+
+    // redux에 저장된 재료 statue 가져오기
     let list = store.getState();
     if (inputFromBR) setInputFlour(inputFromBR);
+    console.log("inputFlour: ", inputFromBR)
+
+    let total_flour = flourStore.getState().totalFlour
     // error 1
-    list.tray.push({
-      "inputGram": flourStore.getState().totalFlour,
+    list.TRAY.push({
+      "inputGram": total_flour,
       "inputName": 'flour',
       "percentage": '100.0',
       "targetGram": targetFlour,
       "flag": true,
       "flourInput": false,
     });
-    await AsyncStorage.setItem(title,JSON.stringify(list))
-      .then((res) => {
-        console.log('successfully saved', res);
-      })
-    .catch(()=>'error in saving')
-    alert('저장되었습니다!')
+
+    console.log("list: ", list);
+
+    // Save at DB
+    await makePrivateRecipe({
+      "IMAGE": "https://i.stack.imgur.com/y9DpT.jpg",
+      "PUBLIC": false,
+      "RATING": 1,
+      "RECIPE_ID":20, // automatically escalate
+      "REVIEW": "",
+      "TITLE": title,
+      "TRAY": list.TRAY,
+      "USER_ID": 4, // get user id in localStorage
+      "AUTHOR": "프랑스참새", // get name of user in localStorage
+      "LIEKS": 0,
+      "TOTAL_FLOUR": total_flour
+    })
+
+    // await AsyncStorage.setItem(title,JSON.stringify(list))
+    //   .then((res) => {
+    //     console.log('successfully saved', res);
+    //   })
+    // .catch(()=>'error in saving')
+    Alert.alert('저장되었습니다!')
   }
+
   const devList = () => {console.log(store.getState());}
   const devstorageList = async() => {
     const keys = await AsyncStorage.getAllKeys();
@@ -352,7 +378,7 @@ const Calculator = (cur) => {
       <IngredientContainer>
       <ScrollView>
         {
-          store.getState().tray.map(cur=>
+          store.getState().TRAY.map(cur=>
             <Ingredient key={`${cur.inputName}${Date()}`} cur={cur}/>
           )
         }
@@ -420,7 +446,7 @@ const Calculator = (cur) => {
         <Pressable
             onPress={() => {
               // validity check: ingredient element identify based
-              const res = store.getState().tray.filter(cur=>cur.inputName===inputName);
+              const res = store.getState().TRAY.filter(cur=>cur.inputName===inputName);
               console.log("res", res);
               if (res.length !== 0) {
                 alert('이미 입력된 이름입니다.');
@@ -511,7 +537,7 @@ const Calculator = (cur) => {
         <Pressable
             onPress={() => {
               // validity check: ingredient element identify based
-              const res = store.getState().tray.filter(cur=>cur.inputName===inputName);
+              const res = store.getState().TRAY.filter(cur=>cur.inputName===inputName);
               console.log("res", res);
               if (res.length !== 0) {
                 alert('이미 있는 이름입니다.');

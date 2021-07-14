@@ -5,7 +5,7 @@ import { Text } from 'react-native';
 
 export default () => {
     // tmp user id
-    const USER_ID=0;
+    const USER_ID=4;
 
     const [recipes, setRecipes] = useState({
         loading: true,

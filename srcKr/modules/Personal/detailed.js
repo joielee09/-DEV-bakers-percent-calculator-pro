@@ -190,13 +190,13 @@ const detailed = (
 
   console.log("cur in private detailed: ",currentRecipe);
   // set temp user_id
-  const USER_ID = 1;
+  const USER_ID = 2;
   // const key = data[0];
-  // const tray = JSON.parse(data[1])['tray'];
-  const fixedTray = [];
-  // const flourObject = tray.filter(cur => cur.inputName === 'flour');
-  // fixedTray.push(flourObject[0]);
-  // tray.map(cur => (cur.inputName !== 'flour') ? fixedTray.push(cur): '');
+  // const TRAY = JSON.parse(data[1])['TRAY'];
+  const fixedTRAY = [];
+  // const flourObject = TRAY.filter(cur => cur.inputName === 'flour');
+  // fixedTRAY.push(flourObject[0]);
+  // TRAY.map(cur => (cur.inputName !== 'flour') ? fixedTRAY.push(cur): '');
 
   const [localList, setLocalList] = useState();
   const [update, setUpdate] = useState(false);
@@ -211,8 +211,8 @@ const detailed = (
 
 
   const handleCal = async () => {
-    const igd = tray;
-    const len = tray.length;
+    const igd = TRAY;
+    const len = TRAY.length;
     const list = igd.filter(cur => cur.inputName !== 'flour');
     const flourList = igd.filter(cur => cur.inputName === 'flour');
     const inputFlour = flourList[0].inputGram;
@@ -375,12 +375,12 @@ const detailed = (
 
   const copyToClipboard = (data) => {
     const title = data[0];
-    let tray = JSON.parse(data[1]).tray;
+    let TRAY = JSON.parse(data[1]).TRAY;
     console.log("data in personal index: ", data);
     let recipe = `${title} \n\n`;
     let flourRecipe=[];
     let restRecipe=[];
-    tray.map(cur => {
+    TRAY.map(cur => {
       if (cur.inputName === 'flour') {
         flourRecipe.push(cur);
       }
