@@ -112,18 +112,6 @@ const ButtomContainer = styled.View`
   justify-content: space-around;
   margin-top: ${HEIGHT*0.01}px;
 `;
-const TopContainer = styled.View`
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: ${WIDTH}px;
-`;
-
-const AddIgdBtn = styled.View`
-  width: ${WIDTH*0.8}px;
-  height: ${WIDTH*0.8*0.2}px;
-  background-color: #F4C8AC;
-`;
-const AddIgdText = styled.Text``;
 const Blank = styled.View`
   height: 10px;
   font-family: 'PoorStory';
@@ -155,15 +143,6 @@ const ButtonText = styled.Text`
   text-align: center;
   font-family : 'PoorStory';
 `;
-const InputFlourText = styled.Text`
-  width: ${WIDTH * 0.5}px;
-  border-bottom-color: lightgray;
-  border-bottom-width: 1px ;
-  text-align: center;
-  font-family : 'PoorStory';
-  font-size : 12px;
-  color: gray;
-`;
 const AlertModalWrapper = styled.View`
   height: ${HEIGHT*0.1}px;
   width: ${HEIGHT*0.2*1.6}px;
@@ -181,10 +160,9 @@ const AlertModalTextContainer = styled.View`
 `;
 
 const TRAY = [];
-
+let total_flour=0;
 
 const Calculator = (cur) => {
-
 
   const [inputFromBR, setInputFromBR] = useState(flourStore.getState().totalFlour)
   const [inputFlour, setInputFlour] = useState('');
@@ -196,18 +174,24 @@ const Calculator = (cur) => {
   const [title, setTitle] = useState('');
   const [IngedientAlertModalVisible,setIngedientAlertModalVisible] = useState(false);
   const [nameAlertModalVisible,setNameAlertModalVisible] = useState(false);
+  const [pageReload, setPageReload] = useState(true)
   const nameList = '';
 
   const valid = () => {
     return title && flourStore.getState().totalFlour && (store.getState().TRAY.length!=0);
   }
+
+  // 밀가루 또는 재료 추가 모달
   const add = (category) => {
+    // inputFlour가 없는 경우 경고페이지
     if (category === 'igd') {
       if (inputFlour || inputFromBR) setModalVisible(true);
       else setIngedientAlertModalVisible(true);
     }
     if (category === 'flour') setFlourModalVisible(true)
   }
+
+  // private recipe에 저장하기
   const save = async() => {
     // 이름이 없는 경우
     if(!title){
@@ -225,7 +209,7 @@ const Calculator = (cur) => {
     if (inputFromBR) setInputFlour(inputFromBR);
     console.log("inputFlour: ", inputFromBR)
 
-    let total_flour = flourStore.getState().totalFlour
+    // let total_flour = flourStore.getState().totalFlour
     // error 1
     list.TRAY.push({
       "inputGram": total_flour,
@@ -241,68 +225,78 @@ const Calculator = (cur) => {
     // Save at DB
     await makePrivateRecipe({
       "IMAGE": "https://i.stack.imgur.com/y9DpT.jpg",
-      "PUBLIC": false,
+      "PUBLIC": true,
       "RATING": 1,
-      "RECIPE_ID":20, // automatically escalate
+      "RECIPE_ID":21, // automatically escalate
       "REVIEW": "",
       "TITLE": title,
       "TRAY": list.TRAY,
       "USER_ID": 4, // get user id in localStorage
-      "AUTHOR": "프랑스참새", // get name of user in localStorage
+      "AUTHOR": "프랑스 참새", // get name of user in localStorage
       "LIEKS": 0,
       "TOTAL_FLOUR": total_flour
     })
-
-    // await AsyncStorage.setItem(title,JSON.stringify(list))
-    //   .then((res) => {
-    //     console.log('successfully saved', res);
-    //   })
-    // .catch(()=>'error in saving')
     Alert.alert('저장되었습니다!')
   }
 
-  const devList = () => {console.log(store.getState());}
-  const devstorageList = async() => {
-    const keys = await AsyncStorage.getAllKeys();
-      const localList = await AsyncStorage.multiGet(keys);
-      // console.log(localList);  
-  } 
+  // const devList = () => {console.log(store.getState());}
+  // const devstorageList = async() => {
+  //   const keys = await AsyncStorage.getAllKeys();
+  //     const localList = await AsyncStorage.multiGet(keys);
+  //     // console.log(localList);  
+  // } 
+
+  // 적용하기 버튼
   const apply = () => {
     // check current input, target flour status
-    console.log(`before apply , ${flourStore.getState().totalFlour}, ${targetFlour}`);
+    console.log(`before apply , ${total_flour}, ${targetFlour}`);
     
     // if user delete target to blank / 0 put default input flour
     let targetHelper = targetFlour;
-    if ( targetHelper.toString() === '' ) {
+    if ( targetFlour.toString() === '' ) {
       console.log("targetFlour is blank")
-      setTargetFlour(flourStore.getState().totalFlour);
-      targetHelper = flourStore.getState().totalFlour;
+      // setTargetFlour(total_flour);
+      targetHelper = total_flour;
     }
 
-    if ( parseInt(targetHelper) === 0 ) {
+    if ( parseInt(targetFlour) === 0 ) {
       console.log("targetFlour is zero")
-      setTargetFlour(flourStore.getState().totalFlour);
-      targetHelper = flourStore.getState().totalFlour;
+      // setTargetFlour(total_flour);
+      targetHelper = total_flour;
     }
 
-    console.log(`after apply , ${flourStore.getState().totalFlour}, ${targetFlour}`);
+    setPageReload(!pageReload)
 
-    store.dispatch({
-      type: 'apply',
-      totalFlour: flourStore.getState().totalFlour,
-      targetFlour: targetHelper 
+    // console.log(`after apply , ${flourStore.getState().totalFlour}, ${targetFlour}`);
+    
+    TRAY.map(cur=>{
+      cur.percentage = (((cur.inputGram / total_flour).toFixed(3))*100).toFixed(1);
+      cur.targetGram = ((cur.inputGram / total_flour)* parseInt(targetHelper)).toFixed(1);
+      // console.log((cur.inputGram / total_flour), parseInt(targetHelper), (cur.inputGram / total_flour)* parseInt(targetHelper))
     })
+
+    console.log("TRAY in apply: ", TRAY);
+    // store.dispatch({
+    //   type: 'apply',
+    //   totalFlour: flourStore.getState().totalFlour,
+    //   targetFlour: targetHelper 
+    // })
+
   }
+
   const reset = () => {
-    store.dispatch({ type: 'reset' })
-    flourStore.dispatch({ type: 'resetFlour' })
+    while(TRAY.length > 0) {
+      TRAY.pop();
+    }
     setInputFlour('');
     setTargetFlour('');
     setTitle('');
   }
+
   const loadAssets = () => {
     setInputFromBR(flourStore.getState().totalFlour);
   }
+
   const onFinish = () => {}
 
   const navigation = useNavigation();
@@ -322,19 +316,18 @@ const Calculator = (cur) => {
     }
   }, [])
 
-
-
   if(loaded){
   return (
     <Wrapper>
       <FlourContainer>
         <InputContainer>
         <InputFromBR>{`레시피 총 밀가루양:`}</InputFromBR>
-        <InputFromBR>{`${flourStore.getState().totalFlour} (g)`}</InputFromBR>
+        {/* <InputFromBR>{`${flourStore.getState().totalFlour} (g)`}</InputFromBR> */}
+        <InputFromBR>{`${total_flour} (g)`}</InputFromBR>
         <InputFromBR />
         <InputFromBR>{`적용시킬 밀가루양:`}</InputFromBR>
         <TextInput
-          placeholder = {`${flourStore.getState().totalFlour.toString()}(g)`}
+          placeholder = {`${total_flour}(g)`}
           label="input Flour"
           value={targetFlour}
           // defaultValue={(flourStore.getState().totalFlour).toString()}
@@ -381,10 +374,13 @@ const Calculator = (cur) => {
       <IngredientContainer>
       <ScrollView>
         {
-          store.getState().TRAY.map(cur=>
+          TRAY.map(cur=>
             <Ingredient key={`${cur.inputName}${Date()}`} cur={cur}/>
           )
         }
+        {/* store.getState().TRAY.map(cur=>
+            <Ingredient key={`${cur.inputName}${Date()}`} cur={cur}/>
+          ) */}
       </ScrollView>
       </IngredientContainer>
       <ButtomContainer>
@@ -510,7 +506,7 @@ const Calculator = (cur) => {
 
       
 
-          {/* flour modal */}
+      {/* flour modal */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -558,17 +554,31 @@ const Calculator = (cur) => {
 
         <Pressable
             onPress={() => {
+              
               // validity check: ingredient element identify based
-              const res = store.getState().TRAY.filter(cur=>cur.inputName===inputName);
-              console.log("res", res);
-              if (res.length !== 0) {
+              const res = TRAY.filter(cur=>cur.inputName===inputName)
+              console.log(res)
+              // const res = store.getState().TRAY.filter(cur=>cur.inputName===inputName);
+              // console.log("res", res);
+              if (res.length!==0) {
                 alert('이미 있는 이름입니다.');
                 setInputName('');
                 setInputGram('');
                 return;
               }
+
+              // 아무것도 입력하지 않았다면 return
               if (inputName === '') return;
               if (inputGram === '') return;
+              
+              TRAY.push({
+                "inputName":inputName, 
+                "inputGram":inputGram,
+                "percentage": 0,
+                "targetGram": 0,
+                "flag": true,
+                "flourInput": true
+              })
               store.dispatch({
                 type:'addIgd',
                 value:{
@@ -580,16 +590,21 @@ const Calculator = (cur) => {
                 "flourInput": true,
               }
               })
-              flourStore.dispatch({
-                type:'addFlour',
-                value:{
-                  "flour":inputGram
-                }
-              })
+
+              total_flour = parseInt(total_flour)+parseInt(inputGram)
+              console.log("total flour is: ", total_flour)
+              // flourStore.dispatch({
+              //   type:'addFlour',
+              //   value:{
+              //     "flour":inputGram
+              //   }
+              // })
+              
+            // reset TextArea
             setInputName('');
             setInputGram('');
-            setInputFromBR(flourStore.getState().totalFlour);
-            alert('밀가루가 추가되었습니다');
+            setInputFromBR(total_flour);
+            Alert.alert('밀가루가 추가되었습니다');
           }}
         ><ButtonContainer><ButtonText>밀가루 추가</ButtonText></ButtonContainer>
             </Pressable>
