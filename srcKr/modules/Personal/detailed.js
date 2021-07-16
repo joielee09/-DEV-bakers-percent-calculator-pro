@@ -14,6 +14,8 @@ import { connect } from 'react-redux';
 import { store, flourStore } from '../../../Redux/Store';
 import Clipboard from 'expo-clipboard';
 
+import { uploadImageAsync } from '../../../apis';
+
 const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
 
@@ -194,7 +196,7 @@ const detailed = (
   }
 ) => {
 
-  console.log("cur in private detailed: ",currentRecipe);
+  // console.log("cur in private detailed: ",currentRecipe);
   // set temp user_id
   const USER_ID = 2;
   // const key = data[0];
@@ -212,6 +214,11 @@ const detailed = (
   const [dialogVisible, setDialogVisible] = useState(false);
   const [changed, setChanged] = useState(true);
   let camera;
+  const [base64, setBase64] = useState('');
+  const [photoInfo, setPhotoInfo] = useState({
+    imgUri:'https://i.stack.imgur.com/y9DpT.jpg',
+    base64: ''
+  })
 
   const Navigation = useNavigation();
 
@@ -342,9 +349,11 @@ const detailed = (
           allowsEditing: true,
           aspect: [4, 3],
           quality: 1,
+          base64: true
         })
-        console.log("image: ", photo);
+        console.log("image: ", photo.base64);
         setImgUri(photo.uri);
+        setBase64(photo.base64)
       } catch (error) {
         console.log("error in handle camera", error)
       }
@@ -376,7 +385,8 @@ const detailed = (
   }
 
   const resetImage = () => {
-    setImgUri("https://i.stack.imgur.com/y9DpT.jpg");
+    uploadImageAsync(base64);
+    // setImgUri("https://i.stack.imgur.com/y9DpT.jpg");
   }
 
   const copyToClipboard = (data) => {

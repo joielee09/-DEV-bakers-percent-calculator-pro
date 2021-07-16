@@ -13,6 +13,8 @@ import ModalComponent from '../../component/alertModals/ingredientAlertModal';
 import { makePrivateRecipe } from "../../../apis";
 import { AntDesign } from '@expo/vector-icons';
 
+import { uploadImageAsync } from '../../../apis';
+
 const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
 
@@ -314,12 +316,15 @@ const Calculator = ({
   }
 
   const reset = () => {
-    console.log("초기화!")
-    TRAY=[];
-    total_flour=0;
-    setTargetFlour('');
-    setTitle('');
-    setPageReload(!pageReload)
+    console.log("하하하")
+    uploadImageAsync('file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540joielee%252FbakersPercent/ImagePicker/7d7f0003-cceb-4059-8015-c9051db25e12.jpg')
+
+    // console.log("초기화!")
+    // TRAY=[];
+    // total_flour=0;
+    // setTargetFlour('');
+    // setTitle('');
+    // setPageReload(!pageReload)
   }
 
   const loadAssets = () => {
