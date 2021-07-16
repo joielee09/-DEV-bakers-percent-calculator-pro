@@ -415,7 +415,7 @@ const detailed = (
           {/* Picture */}
           <ImageContainer>
             <Image
-              source={{ uri: currentRecipe.IMAGE }}
+              source={{ uri: imgUri }}
               style={{ width: WIDTH * 0.9, height: WIDTH * 0.9 * 0.8 }}
               />
           </ImageContainer>
