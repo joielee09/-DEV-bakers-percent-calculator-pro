@@ -1,17 +1,33 @@
 import axios from 'axios';
+import { headers, urls } from './vars';
 
-const headers={
-    'x-api-key': '',
-    'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-    'Accept': '*/*',
-    'Connection': 'keep-alive'
+/** Function for uploading picture for S3 (사진을 S3에 저장하는 함수) */
+export const uploadImageAsync = async (base64) => {
+    /**
+     * @ param {base64} encoded image
+     */
+    try {
+        const data={
+            "BASE_64":base64
+        }
+        const result = await axios.post(
+            urls.uploadImageAsync_url,
+            data,
+            {headers},
+        )
+        console.log("result data: ", result.data);
+        return result.data
     }
+    catch (e) {
+        console.log(e);
+    }
+}
 
 // GET
 export const getPublicRecipeData = async () => {
     try {
         const result = await axios.get(
-            ``,
+            urls.getPublicRecipeData_url,
             {headers}
         )
         return result.data
@@ -23,12 +39,12 @@ export const getPublicRecipeData = async () => {
 
 // POST
 export const getPrivateRecipe = async (USER_ID) => {
-try {
+    try {
         const data={
             "USER_ID":USER_ID
         }
         const result = await axios.post(
-            ``,
+            urls.getPrivateRecipe_url,
             data,
             {headers},
         )
@@ -38,6 +54,53 @@ try {
         console.log(e);
     }
 }
+
+// POST
+export const makePrivateRecipe = async (ITEM) => {
+    try {
+            const data={
+                "item":ITEM
+            }
+            const result = await axios.post(
+                urls.makePrivateRecipe_url,
+                data,
+                {headers},
+            )
+            return result.data
+        }
+    catch (e) {
+        console.log(e);
+    }
+}
+
+export const makePublicRecipe = async (ITEM) => {
+    try {
+            const data={
+                "item":ITEM
+            }
+            const result = await axios.post(
+                urls.makePublicRecipe_url,
+                data,
+                {headers},
+            )
+            return result.data
+        }
+    catch (e) {
+        console.log(e);
+    }
+}
+
+/** Function for save Private Recipe, Review, Rating to DB (개인 레시피 기록을 DB에 저장하는 함수) */
+export const savePrivateRecipe = async (ITEM) => {
+/**
+ * @ ITEM: Contents of Private Recipe. It includes Picture, Recipe, Review, Rating
+ */
+
+}
+
+// DELETE
+
+
 
 /* ITEM format */
 /* 
@@ -83,40 +146,3 @@ try {
         "TOTAL_FLOUR": 1700
     }
 */
-
-// POST
-export const makePrivateRecipe = async (ITEM) => {
-    try {
-            const data={
-                "item":ITEM
-            }
-            const result = await axios.post(
-                ``,
-                data,
-                {headers},
-            )
-            return result.data
-        }
-    catch (e) {
-        console.log(e);
-    }
-}
-
-export const makePublicRecipe = async (ITEM) => {
-    try {
-            const data={
-                "item":ITEM
-            }
-            const result = await axios.post(
-                ``,
-                data,
-                {headers},
-            )
-            return result.data
-        }
-    catch (e) {
-        console.log(e);
-    }
-}
-
-// DELETE
