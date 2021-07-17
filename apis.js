@@ -15,7 +15,6 @@ export const uploadImageAsync = async (base64) => {
             data,
             {headers},
         )
-        console.log("result data: ", result.data);
         return result.data
     }
     catch (e) {
@@ -86,16 +85,28 @@ export const makePublicRecipe = async (ITEM) => {
             return result.data
         }
     catch (e) {
-        console.log(e);
+        console.warn(e);
     }
 }
 
-/** Function for save Private Recipe, Review, Rating to DB (개인 레시피 기록을 DB에 저장하는 함수) */
-export const savePrivateRecipe = async (ITEM) => {
+/** 저장하기 기능: Function for save Private Recipe, Review, Rating to DB (개인 레시피 기록을 DB에 저장하는 함수) */
+export const updatePrivateRecipe = async (ITEM) => {
 /**
  * @ ITEM: Contents of Private Recipe. It includes Picture, Recipe, Review, Rating
  */
-
+    try {
+        const data = {
+            "item": ITEM
+        }
+        const result = await axios.post(
+            urls.updatePrivateRecipe_url,
+            data,
+            {headers}
+        )
+    }
+    catch (e) {
+        console.warn(e);
+    }
 }
 
 // DELETE

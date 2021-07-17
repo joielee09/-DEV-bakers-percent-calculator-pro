@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { getPrivateRecipe } from "../../../apis";
 import ListPresenter from "./ListPresenter";
 import styled from 'styled-components/native';
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, Button } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const Wrapper = styled.View`
     display: flex;
@@ -15,7 +16,7 @@ export default () => {
     const [ready, setReady] = useState(false);
 
     // tmp user id
-    const USER_ID=4;
+    const USER_ID=0;
 
     const [recipes, setRecipes] = useState({
         loading: true,
@@ -32,17 +33,18 @@ export default () => {
         })
         setReady(true)
     }
+    const navigation = useNavigation();
     useEffect(()=>{
-        getData();
+        console.log("refreshing!!")
+        navigation.addListener('focus', ()=>getData());
     }, []);
     return (
         ready
-        ? <ListPresenter refreshFn={getData}{...recipes}/>
+        ?
+        <ListPresenter refreshFn={getData}{...recipes}/>
         : 
         <Wrapper>
         <ActivityIndicator color="#BB6767" size="large" />
         </Wrapper>
     )
-    // return <ListPresenter refreshFn={getData}{...recipes}/>
-    // return <Text>hello</Text>
 }

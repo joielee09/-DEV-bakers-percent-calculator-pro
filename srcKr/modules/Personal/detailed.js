@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { store, flourStore } from '../../../Redux/Store';
 import Clipboard from 'expo-clipboard';
 
-import { uploadImageAsync } from '../../../apis';
+import { uploadImageAsync, updatePrivateRecipe } from '../../../apis';
 
 const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
@@ -181,10 +181,22 @@ const DialogContainer = styled.View`
   width: ${WIDTH * 0.7}px;
   height: ${WIDTH * 0.7 * 0.5}px;
 `;
-const ConfirmContainer = styled.View`
-  flex-direction: row;
-  flex-wrap: wrap;
+const AlertModalWrapper = styled.View`
+  height: ${HEIGHT*0.1}px;
+  width: ${HEIGHT*0.2*1.6}px;
+  background-color: #fff;
+  margin-top: ${HEIGHT*0.25}px;
+  margin-right: auto;
+  margin-left: auto;
 `;
+const AlertModalTextContainer = styled.View`
+  background-color: #fff;
+  height: ${HEIGHT*0.15}px;
+  width: ${HEIGHT*0.2*1.6}px;
+  align-items: center;
+  padding-top: ${HEIGHT*0.04}px;
+`;
+
 
 const detailed = (
   {
@@ -208,9 +220,9 @@ const detailed = (
 
   const [localList, setLocalList] = useState();
   const [update, setUpdate] = useState(false);
-  const [imgUri, setImgUri] = useState("https://i.stack.imgur.com/y9DpT.jpg");
-  const [value, onChangeText] = useState();
-  const [rate, setRate] = useState(1);
+  const [imgUri, setImgUri] = useState(currentRecipe.IMAGE);
+  const [value, onChangeText] = useState(currentRecipe.REVIEW); //review
+  const [rate, setRate] = useState(currentRecipe.RATING);
   const [dialogVisible, setDialogVisible] = useState(false);
   const [changed, setChanged] = useState(true);
   let camera;
@@ -219,6 +231,7 @@ const detailed = (
     imgUri:'https://i.stack.imgur.com/y9DpT.jpg',
     base64: ''
   })
+  const [modal, setModal] = useState(false);
 
   const Navigation = useNavigation();
 
@@ -291,25 +304,59 @@ const detailed = (
   }
 
   // error : item update error
-  const updateList = async (key) => {
-    try{
-      let item = await AsyncStorage.getItem(key)
-      item = JSON.parse(item);
-      item.image = imgUri;
-      item.rating = rate;
-      item.review = value;
-      console.log("item: ", item);
+  const updateList = async () => {
 
-      await AsyncStorage.setItem(key,JSON.stringify(item))
-        .then((res)=>console.log('successfully updated', res))
-        .catch(()=>'error in saving')
-        // alert('저장되었습니다. 💾')
-        createConfirmAlert()
-        setChanged(false);
+    setModal(true);
+    // send image to S3 && get location link
+    let location=''
+    if(base64){
+      // return image URL from S3
+      location = await uploadImageAsync(base64);
+    } else {
+      location = imgUri
     }
-    catch(e){
-      console.log(e);
+
+    console.log("location: ", location);
+
+    
+    try{
+      await updatePrivateRecipe({
+        "RECIPE_ID": currentRecipe.RECIPE_ID,
+        "USER_ID": currentRecipe.USER_ID,
+        "IMAGE": location, // update IMAGE
+        "PUBLIC": currentRecipe.PUBLIC,
+        "RATING": rate, //update RATING
+        "REVIEW": value, // update REVIEW
+        "TITLE": currentRecipe.TITLE,
+        "TRAY": currentRecipe.TRAY,
+        "TOTAL_FLOUR":currentRecipe.TOTAL_FLOUR,
+        "AUTHOR": currentRecipe.AUTHOR,
+        "LIKES": currentRecipe.LIKES,
+      });
     }
+    catch (e) {
+      console.warn(e);
+    }
+    // try{
+    //   let item = await AsyncStorage.getItem(key)
+    //   item = JSON.parse(item);
+    //   item.image = imgUri;
+    //   item.rating = rate;
+    //   item.review = value;
+    //   console.log("item: ", item);
+
+    //   await AsyncStorage.setItem(key,JSON.stringify(item))
+    //     .then((res)=>console.log('successfully updated', res))
+    //     .catch(()=>'error in saving')
+    //     // alert('저장되었습니다. 💾')
+    //     createConfirmAlert()
+    //     setChanged(false);
+    // }
+    // catch(e){
+    //   console.log(e);
+    // }
+    setModal(false);
+    Alert.alert('저장되었습니다.')
   }
 
     const handleUpdate = async (key) => {
@@ -372,10 +419,12 @@ const detailed = (
           allowsEditing: true,
           aspect: [4, 3],
           quality: 1,
+          base64: true
         });
 
-        console.log("result: ", result);
+        console.log("result base64 from album: ", result.base64);
         setImgUri(result.uri);
+        setBase64(result.base64);
       } catch (error) {
       console.log("error in handle album", error)
       }
@@ -385,8 +434,7 @@ const detailed = (
   }
 
   const resetImage = () => {
-    uploadImageAsync(base64);
-    // setImgUri("https://i.stack.imgur.com/y9DpT.jpg");
+    setImgUri("https://i.stack.imgur.com/y9DpT.jpg");
   }
 
   const copyToClipboard = (data) => {
@@ -476,7 +524,7 @@ const detailed = (
           {/* Review */}
           <ReviewContainer>
             <ButtonContainer>
-            <RateEmo>{`[ 점수: ${currentRecipe.RATING}/5 ]`}</RateEmo>
+            <RateEmo>{`[ 점수: ${rate}/5 ]`}</RateEmo>
               <StarContainer>
               <TouchableOpacity
                 onPress={()=>setRate('1')}
@@ -540,7 +588,7 @@ const detailed = (
           <TouchableOpacity onPress={handleCal}>
             <CalButtonView><ImageButtonText>계산기로 이동하기</ImageButtonText></CalButtonView>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => updateList(currentRecipe.RECIPE_ID)}>
+          <TouchableOpacity onPress={updateList}>
             <CalButtonView><ImageButtonText>저장하기</ImageButtonText></CalButtonView>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => handleDelete(currentRecipe.RECIPE_ID)}>
@@ -565,6 +613,16 @@ const detailed = (
               onPress: () => Navigation.goBack()
             }}
           />
+
+      <Modal
+        animationType="none"
+        transparent={true}
+        visible={modal}
+      >
+      <AlertModalWrapper>
+        <AlertModalTextContainer><Text>저장중...</Text></AlertModalTextContainer>
+      </AlertModalWrapper>
+      </Modal>
 
       </Wrapper>
       </ScrollView>
