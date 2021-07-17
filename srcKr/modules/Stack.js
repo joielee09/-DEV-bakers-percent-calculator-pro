@@ -7,6 +7,7 @@ import Calculator from './Calculator'
 import GoToCalculator from './Calculator/goToCalculator'
 import Personal from './Personal/ListContainer'
 import Detailed from './Personal/Detailed';
+import Register from './Landing';
 
 const Stack = createStackNavigator();
 
@@ -17,6 +18,7 @@ export default Basic = () => {
         headerTitle:''
       }}
     >
+      <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="Tab" component={Tab} />
       <Stack.Screen name="BasicRecipe" component={PublicRecipesDetailed} />
       <Stack.Screen name="BRList" component={PublicRecipesList} />
@@ -24,6 +26,7 @@ export default Basic = () => {
       <Stack.Screen name="Personal" component={Personal} />
       <Stack.Screen name="detailed" component={Detailed} />
       <Stack.Screen name="GoToCalculator" component={GoToCalculator} />
+      
     </Stack.Navigator>
   )
 }

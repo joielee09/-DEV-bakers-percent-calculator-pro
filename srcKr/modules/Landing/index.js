@@ -32,17 +32,7 @@ export default Basic = () => {
 
   return (
     <Wrapper>
-      <TouchableOpacity onPress={goToBR}>
-        <ButtonContainer />
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={goToCal}>
-        <ButtonContainer />
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={goToPersonal}>
-        <ButtonContainer />
-      </TouchableOpacity>
+      
     </Wrapper>
   )
 }
