@@ -210,6 +210,7 @@ const Calculator = ({
     TRAY = filtered;
     setPageReload(!pageReload)
   }
+
   const valid = () => {
     return title && total_flour && (TRAY.length!=0);
   }
@@ -229,32 +230,32 @@ const Calculator = ({
   const save = async() => {
     // 이름이 없는 경우
     if(!title){
-      setNameAlertModalVisible(true);
+      Alert.alert('이름을 입력해주세요');
       return;
     }
     // 재료가 없는 경우
     if(!valid()){
-      alert('재료를 입력해주세요');
+      Alert.alert('재료를 입력해주세요');
       return;
     }
 
     // redux에 저장된 재료 statue 가져오기
-    let list = store.getState();
-    if (inputFromBR) setInputFlour(inputFromBR);
-    console.log("inputFlour: ", inputFromBR)
+    // let list = store.getState();
+    // if (inputFromBR) setInputFlour(inputFromBR);
+    // console.log("inputFlour: ", inputFromBR)
 
     // let total_flour = flourStore.getState().totalFlour
     // error 1
-    list.TRAY.push({
-      "inputGram": total_flour,
-      "inputName": 'flour',
-      "percentage": '100.0',
-      "targetGram": targetFlour,
-      "flag": true,
-      "flourInput": false,
-    });
+    // list.TRAY.push({
+    //   "inputGram": total_flour,
+    //   "inputName": 'flour',
+    //   "percentage": '100.0',
+    //   "targetGram": targetFlour,
+    //   "flag": true,
+    //   "flourInput": false,
+    // });
 
-    console.log("list: ", list);
+    // console.log("list: ", list);
 
     // Save at DB
     await makePrivateRecipe({

@@ -473,13 +473,6 @@ const detailed = (
         Alert.alert(
           '',
         '뒤로 가기 전에 저장해주세요.\n\n(다시 한 번 뒤로가기를 누르면 저장 없이 나갈 수 있습니다.)',
-          [
-            {
-              text: '확인',
-              style: 'destructive',
-              onPress: () => handleUpdate(key),
-            },
-          ]
         );
       }),
     [Navigation, changed]
