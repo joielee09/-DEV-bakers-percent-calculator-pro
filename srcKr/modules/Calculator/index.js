@@ -20,7 +20,7 @@ const HEIGHT = Dimensions.get('screen').height;
 
 const Wrapper = styled.View``;
 const Text = styled.Text`
-  font-size: 15px;
+  font-size: 14px;
   font-family : 'PoorStory';
 `;
 
@@ -199,11 +199,14 @@ const Calculator = ({
     console.log(itemName)
     const filtered=[]
     TRAY.map(cur=>{
-      if(cur.inputName===itemName){
+      if(cur.inputName===itemName && cur.flourInput==true){
         total_flour=parseInt(total_flour)-parseInt(cur.inputGram);
+      }
+      else{
         filtered.push(cur)
       }
     })
+    console.log(filtered, TRAY)
     TRAY = filtered;
     setPageReload(!pageReload)
   }
@@ -503,7 +506,8 @@ const Calculator = ({
                 "inputGram":inputGram,
                 "percentage": 0,
                 "targetGram": 0,
-                "flag": false
+                "flag": false,
+                "flourInput": false,
               })
 
               store.dispatch({
