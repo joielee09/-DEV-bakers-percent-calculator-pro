@@ -235,30 +235,7 @@ const detailed = (
 
   const Navigation = useNavigation();
 
-  console.log("currentRecipe: ", currentRecipe)
   const handleCal = async () => {
-    // const igd = TRAY;
-    // const len = TRAY.length;
-    // const list = igd.filter(cur => cur.inputName !== 'flour');
-    // const flourList = igd.filter(cur => cur.inputName === 'flour');
-    // const inputFlour = flourList[0].inputGram;
-    // console.log("igd, inputflour: ", igd,inputFlour);
-
-    // todo : exclude flour when sending to calculator
-    
-    // await store.dispatch({
-    //   type: 'brToCal',
-    //   value:{
-    //     list
-    //   }
-    // })
-    
-    // await flourStore.dispatch({
-    //   type: 'passFlour',
-    //   value:{
-    //     "flour": inputFlour
-    //   }
-    // })
     Navigation.navigate("GoToCalculator",{cur:currentRecipe});
   }
   const createTwoButtonAlert = () =>

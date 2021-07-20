@@ -111,14 +111,11 @@ const Basic = ({
     params: {cur}
   }
   }) => {
-  console.log("cur: ", cur)
   const [LIKES, setLIKES] = useState(false);
   const loaded = Font.useFonts({
     'PoorStory': require('../../../assets/fonts/Delius-Regular.ttf'),
     'PoorStory': require('../../../assets/fonts/PoorStory-Regular.ttf'),
   });  
-  // console.log("cur in br spec: ",  cur);
-  
 
   const loadAssets = () => {}
   const onFinish = () => {}
