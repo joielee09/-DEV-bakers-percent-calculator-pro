@@ -112,6 +112,26 @@ export const updatePrivateRecipe = async (ITEM) => {
 
 // DELETE
 
+/** 저장하기 기능: Function for save Private Recipe, Review, Rating to DB (개인 레시피 기록을 DB에 저장하는 함수) */
+export const deletePrivateRecipe = async (ITEM) => {
+    /**
+     * @ ITEM: Contents of Private Recipe. It includes Picture, Recipe, Review, Rating
+     */
+        try {
+            const data = {
+                "item": ITEM
+            }
+            const result = await axios.post(
+                urls.deletePrivateRecipe_url,
+                data,
+                {headers}
+            )
+            console.log("✅ successfully deleted: ", result);
+        }
+        catch (e) {
+            console.warn(e);
+        }
+    }
 
 
 /* ITEM format */

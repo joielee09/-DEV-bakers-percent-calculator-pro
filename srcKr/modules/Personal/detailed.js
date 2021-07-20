@@ -14,7 +14,11 @@ import { connect } from 'react-redux';
 import { store, flourStore } from '../../../Redux/Store';
 import Clipboard from 'expo-clipboard';
 
-import { uploadImageAsync, updatePrivateRecipe } from '../../../apis';
+import { 
+  uploadImageAsync, 
+  updatePrivateRecipe, 
+  deletePrivateRecipe 
+} from '../../../apis';
 
 const WIDTH = Dimensions.get('screen').width;
 const HEIGHT = Dimensions.get('screen').height;
@@ -251,9 +255,16 @@ const detailed = (
         {
           text: "삭제", onPress: async () => {
             setChanged(false);
-            await AsyncStorage.removeItem(key);
-            console.log("deleted succesfully");
-            alert('삭제되었습니다.');
+            try{
+              await deletePrivateRecipe({
+                "RECIPE_ID": currentRecipe.RECIPE_ID,
+                "USER_ID": currentRecipe.USER_ID
+              });
+            }
+            catch (e) {
+              console.warn(e);
+            }
+            Alert.alert('삭제되었습니다.');
             Navigation.goBack();
         } }
       ],
