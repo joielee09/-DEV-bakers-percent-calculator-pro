@@ -133,6 +133,23 @@ export const deletePrivateRecipe = async (ITEM) => {
         }
     }
 
+    export const updatePublicLikes = async(ITEM) => {
+        try {
+            const data = {
+                "item": ITEM
+            }
+            const result = await axios.post(
+                urls.updatePublicLikes_url,
+                data,
+                {headers}
+            )
+            console.log("✅ successfully public update likes: ", result);
+        }
+        catch (e) {
+            console.warn(e);
+        }
+    }
+
 
 /* ITEM format */
 /* 

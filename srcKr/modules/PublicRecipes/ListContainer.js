@@ -4,6 +4,7 @@ import { createNativeWrapper } from "react-native-gesture-handler";
 import { getPublicRecipeData } from "../../../apis";
 import ListPresenter from "./ListPresenter";
 import styled from 'styled-components/native';
+import { useNavigation } from "@react-navigation/native";
 
 const Wrapper = styled.View`
     display: flex;
@@ -15,21 +16,23 @@ const Wrapper = styled.View`
 export default () => {
     const [ready, setReady] = useState(false);
     const [recipes, setRecipes] = useState({
-        loading: true,
+        loading: false,
         recipes:[],
         recipesError:null
     })
     const getData = async() => {
         const res = await getPublicRecipeData();
         setRecipes({
-            loading:true,
+            loading:false,
             recipes: res.Items,
             recipesError: null
         })
         setReady(true)
     }
+    const navigation = useNavigation();
     useEffect(()=>{
-        getData();
+        console.log("Public Refreshing!!")
+        navigation.addListener('focus', ()=>getData());
     }, []);
     return (
         ready
