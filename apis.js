@@ -103,6 +103,7 @@ export const updatePrivateRecipe = async (ITEM) => {
             data,
             {headers}
         )
+        console.log("successfully updated: ", result);
     }
     catch (e) {
         console.warn(e);

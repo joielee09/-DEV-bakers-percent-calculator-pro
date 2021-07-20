@@ -317,7 +317,6 @@ const detailed = (
     }
 
     console.log("location: ", location);
-
     
     try{
       await updatePrivateRecipe({
@@ -356,6 +355,7 @@ const detailed = (
     //   console.log(e);
     // }
     setModal(false);
+    setChanged(false)
     Alert.alert('저장되었습니다.')
   }
 
@@ -470,9 +470,18 @@ const detailed = (
         }
 
         e.preventDefault();
+        // Alert.alert('뒤로 가기 전에 저장해주세요. (다시 한 번 뒤로가기를 누르면 저장 없이 나갈 수 있습니다.)')
         Alert.alert(
           '',
         '뒤로 가기 전에 저장해주세요.\n\n(다시 한 번 뒤로가기를 누르면 저장 없이 나갈 수 있습니다.)',
+          [
+            {
+              // text: '확인',
+              // style: 'destructive',
+              // onPress: () => handleUpdate(true),
+              onPress: () => setChanged(false)
+            },
+          ]
         );
       }),
     [Navigation, changed]
@@ -611,7 +620,7 @@ const detailed = (
           </TouchableOpacity>
 
           {/* dialog popup */}
-          <ConfirmDialog
+          {/* <ConfirmDialog
             title="Confirm Dialog"
             message="Do you want to SAVE?"
             visible={dialogVisible}
@@ -627,7 +636,7 @@ const detailed = (
               title: "NO",
               onPress: () => Navigation.goBack()
             }}
-          />
+          /> */}
 
       <Modal
         animationType="none"
