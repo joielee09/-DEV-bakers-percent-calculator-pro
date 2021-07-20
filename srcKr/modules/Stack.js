@@ -18,7 +18,7 @@ export default Basic = () => {
         headerTitle:''
       }}
     >
-      {/* <Stack.Screen name="Register" component={Register} /> */}
+      <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="Tab" component={Tab} />
       <Stack.Screen name="BasicRecipe" component={PublicRecipesDetailed} />
       <Stack.Screen name="BRList" component={PublicRecipesList} />
