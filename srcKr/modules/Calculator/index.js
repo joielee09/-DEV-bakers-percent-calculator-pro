@@ -262,11 +262,11 @@ const Calculator = ({
       "IMAGE": "https://i.stack.imgur.com/y9DpT.jpg",
       "PUBLIC": true,
       "RATING": 1,
-      "RECIPE_ID":51, // automatically escalate
+      "RECIPE_ID":21, // automatically escalate
       "REVIEW": "",
       "TITLE": title,
       "TRAY": TRAY,
-      "USER_ID": 5, // get user id in localStorage
+      "USER_ID": 4, // get user id in localStorage
       "AUTHOR": "프랑스 참새", // get name of user in localStorage
       "LIEKS": 0,
       "TOTAL_FLOUR": total_flour
