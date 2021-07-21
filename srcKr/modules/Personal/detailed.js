@@ -214,7 +214,7 @@ const detailed = (
 
   // console.log("cur in private detailed: ",currentRecipe);
   // set temp user_id
-  const USER_ID = 2;
+  const USER_ID = 5;
   // const key = data[0];
   // const TRAY = JSON.parse(data[1])['TRAY'];
   const fixedTRAY = [];
@@ -326,24 +326,6 @@ const detailed = (
     catch (e) {
       console.warn(e);
     }
-    // try{
-    //   let item = await AsyncStorage.getItem(key)
-    //   item = JSON.parse(item);
-    //   item.image = imgUri;
-    //   item.rating = rate;
-    //   item.review = value;
-    //   console.log("item: ", item);
-
-    //   await AsyncStorage.setItem(key,JSON.stringify(item))
-    //     .then((res)=>console.log('successfully updated', res))
-    //     .catch(()=>'error in saving')
-    //     // alert('저장되었습니다. 💾')
-    //     createConfirmAlert()
-    //     setChanged(false);
-    // }
-    // catch(e){
-    //   console.log(e);
-    // }
     setModal(false);
     setChanged(false)
     Alert.alert('저장되었습니다.')

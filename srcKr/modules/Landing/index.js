@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/native';
-import { Button, Dimensions, Pressable, TextInput } from 'react-native';
+import { Button, Image, Dimensions, Pressable, TextInput } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import AppLoading from 'expo-app-loading';
@@ -15,7 +15,7 @@ const Wrapper = styled.View`
   justify-content: center;
 `;
 const InputContainer = styled.View`
-  margin:50px;
+  margin:10px;
 `;
 const Text = styled.Text`
   font-size: 15px;
@@ -31,6 +31,7 @@ const ButtonContainer = styled.View`
 `;
 
 export default Basic = () => {
+  const [fullname, setFullname] = useState('');
   const [nickname, setNickname] = useState('');
 
   const navigation = useNavigation();
@@ -58,7 +59,32 @@ export default Basic = () => {
   if(loaded){
     return (
       <Wrapper>
+      <Image 
+        source={{ uri:'https://bakerspercent-assets.s3.ap-northeast-2.amazonaws.com/bread.PNG' }}
+        style={{
+          width: WIDTH*0.8,
+          height: WIDTH*0.7
+        }}
+      />
         <InputContainer>
+        <Text>이름을 입력해주세요: </Text>
+          <TextInput
+            placeholder = {`예) 이재영`}
+            label="fullname"
+            value={fullname}
+            onChangeText={cur=>setFullname(cur)}
+            style={{
+              width: WIDTH*0.5, 
+              borderBottomColor: 'lightgray',
+              borderBottomWidth: 1,
+              fontSize: 20,
+              textAlign: 'center',
+              marginTop: 10,
+              fontFamily: 'PoorStory',
+            }}
+          />
+          </InputContainer>
+          <InputContainer>
           <Text>닉네임을 입력해주세요: </Text>
           <TextInput
             placeholder = {`예) 백두산 까치`}

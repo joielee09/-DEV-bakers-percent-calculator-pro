@@ -16,7 +16,7 @@ export default () => {
     const [ready, setReady] = useState(false);
 
     // tmp user id
-    const USER_ID=4;
+    const USER_ID=5;
 
     const [recipes, setRecipes] = useState({
         loading: true,
@@ -35,7 +35,7 @@ export default () => {
     }
     const navigation = useNavigation();
     useEffect(()=>{
-        console.log("refreshing!!")
+        console.log("Private Refreshing!!")
         navigation.addListener('focus', ()=>getData());
     }, []);
     return (

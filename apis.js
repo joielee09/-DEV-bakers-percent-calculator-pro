@@ -82,12 +82,14 @@ export const makePublicRecipe = async (ITEM) => {
                 data,
                 {headers},
             )
-            return result.data
+            console.log(result)
         }
     catch (e) {
         console.warn(e);
     }
 }
+
+
 
 /** 저장하기 기능: Function for save Private Recipe, Review, Rating to DB (개인 레시피 기록을 DB에 저장하는 함수) */
 export const updatePrivateRecipe = async (ITEM) => {
@@ -95,6 +97,7 @@ export const updatePrivateRecipe = async (ITEM) => {
  * @ ITEM: Contents of Private Recipe. It includes Picture, Recipe, Review, Rating
  */
     try {
+        console.log("original updateprivaterecipe")
         const data = {
             "item": ITEM
         }
@@ -109,6 +112,27 @@ export const updatePrivateRecipe = async (ITEM) => {
         console.warn(e);
     }
 }
+
+// export const updatePrivateRecipe = async (ITEM) => {
+//     console.log("update working???")
+//     try {
+//             const data={
+//                 "item":ITEM
+//             }
+//             const result = await axios.post(
+//                 `https://fbo2vnjyz6.execute-api.ap-northeast-2.amazonaws.com/baker_stage/update-private-recipe`,
+//                 data,
+//                 {headers},
+//             )
+//             console.log("✅ get response: ", result.data);
+//             return result.data
+//         }
+//     catch (e) {
+//         console.log(e);
+//     }
+// }
+
+
 
 // DELETE
 
