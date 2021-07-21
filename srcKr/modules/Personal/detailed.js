@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import { Dimensions, ScrollView, TextInput, Image, Alert, Modal, ActivityIndicator } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
-import { ConfirmDialog } from 'react-native-simple-dialogs';
 
 import * as ImagePicker from 'expo-image-picker';
 
 import { connect } from 'react-redux';
-import { store, flourStore } from '../../../Redux/Store';
 import Clipboard from 'expo-clipboard';
 
 import { 
@@ -29,11 +25,6 @@ const LoadingWrapper = styled.View`
     flex: 1;
     justify-content: center;
     align-items: center;
-`;
-const RecipeTitle = styled.Text`
-  font-size: 18px;
-  font-family: 'PoorStory';
-  height: 30px;
 `;
 const Text = styled.Text`
   font-size: 13px;
@@ -57,14 +48,6 @@ const PerText = styled.Text`
   color: gray;
   font-family: 'PoorStory';
   width: ${WIDTH*0.2}px;
-`;
-const Container = styled.View`
-  margin: 10px;
-  border-bottom-color: lightgray;
-  border-bottom-width: 0.6px;
-  flex-direction: row;
-  flex-wrap: wrap;
-  padding-bottom: 10px;
 `;
 const TitleContainer = styled.View`
   width: ${WIDTH*0.9}px;
@@ -167,11 +150,6 @@ const FlourText = styled.Text`
   color: lightgray;
   font-family: 'PoorStory'
 `;
-const SnapContainer = styled.View`
-  width: 300px;
-  height: 200px;
-  padding-top: 150px;
-`;
 const DetailedContainer = styled.View`
   border-radius: 1px;
   border: 1px lightgray dashed;
@@ -180,10 +158,6 @@ const DetailedContainer = styled.View`
   margin-bottom: 30px;
   padding-top: 30px;
   padding-bottom: 30px;
-`;
-const DialogContainer = styled.View`
-  width: ${WIDTH * 0.7}px;
-  height: ${WIDTH * 0.7 * 0.5}px;
 `;
 const AlertModalWrapper = styled.View`
   height: ${HEIGHT*0.1}px;
@@ -212,29 +186,11 @@ const detailed = (
   }
 ) => {
 
-  // console.log("cur in private detailed: ",currentRecipe);
-  // set temp user_id
-  const USER_ID = 5;
-  // const key = data[0];
-  // const TRAY = JSON.parse(data[1])['TRAY'];
-  const fixedTRAY = [];
-  // const flourObject = TRAY.filter(cur => cur.inputName === 'flour');
-  // fixedTRAY.push(flourObject[0]);
-  // TRAY.map(cur => (cur.inputName !== 'flour') ? fixedTRAY.push(cur): '');
-
-  const [localList, setLocalList] = useState();
-  const [update, setUpdate] = useState(false);
   const [imgUri, setImgUri] = useState(currentRecipe.IMAGE);
   const [value, onChangeText] = useState(currentRecipe.REVIEW); //review
   const [rate, setRate] = useState(currentRecipe.RATING);
-  const [dialogVisible, setDialogVisible] = useState(false);
   const [changed, setChanged] = useState(true);
-  let camera;
   const [base64, setBase64] = useState('');
-  const [photoInfo, setPhotoInfo] = useState({
-    imgUri:'https://i.stack.imgur.com/y9DpT.jpg',
-    base64: ''
-  })
   const [modal, setModal] = useState(false);
 
   const Navigation = useNavigation();
@@ -271,19 +227,19 @@ const detailed = (
     { cancelable: false }
     );
   
-  const createConfirmAlert = () =>
-    Alert.alert(
-      "",
-      "저장되었습니다 💾",
-      [
-        {
-          text: "확인",
-          onPress: () => console.log("successfully updated"),
-          // style: "cancel"
-        },
-      ],
-    { cancelable: false }
-  );
+  // const createConfirmAlert = () =>
+  //   Alert.alert(
+  //     "",
+  //     "저장되었습니다 💾",
+  //     [
+  //       {
+  //         text: "확인",
+  //         onPress: () => console.log("successfully updated"),
+  //         // style: "cancel"
+  //       },
+  //     ],
+  //   { cancelable: false }
+  // );
   
   const handleDelete = async(key) => {
     try {
@@ -345,14 +301,7 @@ const detailed = (
       'PoorStory': require('../../../assets/fonts/PoorStory-Regular.ttf'),
   });
   
-  const loadAssets = async () => {
-    // let item = await AsyncStorage.getItem(key);
-    // console.log("item in load Assets: ", item);
-    // item = JSON.parse(item);
-    // if(item.image!==undefined)  setImgUri(item.image);
-    // if(item.rating!==undefined) setRate(item.rating);
-    // if (item.review !== undefined) onChangeText(item.review);
-  }
+  const loadAssets = async () => {}
   const onFinish = () => {
     setUpdate(true);
   }
@@ -362,7 +311,6 @@ const detailed = (
     console.log("status: ", status);
     if (status === 'granted') {
       try {
-      const options = { quality: 0.5, base64: true };
       let photo = await ImagePicker.launchCameraAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.All,
           allowsEditing: true,
@@ -370,7 +318,6 @@ const detailed = (
           quality: 1,
           base64: true
         })
-        console.log("image: ", photo.base64);
         setImgUri(photo.uri);
         setBase64(photo.base64)
       } catch (error) {
@@ -393,8 +340,6 @@ const detailed = (
           quality: 1,
           base64: true
         });
-
-        console.log("result base64 from album: ", result.base64);
         setImgUri(result.uri);
         setBase64(result.base64);
       } catch (error) {
@@ -426,7 +371,6 @@ const detailed = (
     restRecipe.map(cur=>{
       recipe += `${cur.inputName}: ${cur.inputGram} (${cur.percentage} %)\n`
     })
-    // console.log(recipe);
     Clipboard.setString(recipe);
     Alert.alert(`[${title}]이 복사되었습니다. 🍪`)
   };
@@ -448,9 +392,6 @@ const detailed = (
         '뒤로 가기 전에 저장해주세요.\n\n(다시 한 번 뒤로가기를 누르면 저장 없이 나갈 수 있습니다.)',
           [
             {
-              // text: '확인',
-              // style: 'destructive',
-              // onPress: () => handleUpdate(true),
               onPress: () => setChanged(false)
             },
           ]
@@ -491,8 +432,6 @@ const detailed = (
           
           <DetailedContainer>
 
-
-          
             {/* Recipe */}
             <RateEmo>{`[ 레시피 ]`}</RateEmo>
           <TouchableOpacity
@@ -591,25 +530,6 @@ const detailed = (
             <DelButtonView><DelImageButtonText>삭제하기</DelImageButtonText></DelButtonView>
           </TouchableOpacity>
 
-          {/* dialog popup */}
-          {/* <ConfirmDialog
-            title="Confirm Dialog"
-            message="Do you want to SAVE?"
-            visible={dialogVisible}
-            onTouchOutside={() => setDialogVisible(false)}
-            positiveButton={{
-              title: "YES",
-              onPress: () => {
-                updateList(currentRecipe.RECIPE_ID);
-                Navigation.goBack();
-              }
-            }}
-            negativeButton={{
-              title: "NO",
-              onPress: () => Navigation.goBack()
-            }}
-          /> */}
-
       <Modal
         animationType="none"
         transparent={true}
@@ -619,7 +539,6 @@ const detailed = (
         <AlertModalTextContainer><Text>저장중...</Text></AlertModalTextContainer>
       </AlertModalWrapper>
       </Modal>
-
       </Wrapper>
       </ScrollView>
     )
