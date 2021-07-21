@@ -187,6 +187,26 @@ export const createUser = async(USER_INFO) => {
     }
 }
 
+// CHECK USER DUPLICATION
+
+export const checkUserDuplication = async(NICKNAME) => {
+    try{
+        const data = {
+            "NICKNAME":NICKNAME
+        };
+        const result = await axios.post(
+            urls.checkUserDuplication_url,
+            data,
+            {headers}
+        )
+        console.log(result.data);
+        if(result.data.Count===0) return false;
+        else return true;
+    } catch(e) {
+        console.warn(e);
+    }
+}
+
 
 /* ITEM format */
 /* 

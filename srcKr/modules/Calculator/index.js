@@ -13,6 +13,7 @@ import ModalComponent from '../../component/alertModals/ingredientAlertModal';
 import { makePrivateRecipe } from "../../../apis";
 import { AntDesign } from '@expo/vector-icons';
 
+
 import { uploadImageAsync } from '../../../apis';
 
 const WIDTH = Dimensions.get('screen').width;
@@ -319,16 +320,31 @@ const Calculator = ({
 
   }
 
-  const reset = () => {
-    // console.log("하하하")
-    uploadImageAsync('file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540joielee%252FbakersPercent/ImagePicker/7d7f0003-cceb-4059-8015-c9051db25e12.jpg')
+  const test = async() => {
+    try{
+      const value = await AsyncStorage.getItem('USER_INFO');
+      if(value!==null){
+        console.log(JSON.parse(value));
+      }
+    } catch (e) {
+      console.warn(e);
+    }
+  }
 
-    // console.log("초기화!")
-    // TRAY=[];
-    // total_flour=0;
-    // setTargetFlour('');
-    // setTitle('');
-    // setPageReload(!pageReload)
+  const deleteTest = async() => {
+    try{
+      const value = await AsyncStorage.removeItem('USER_INFO');
+    } catch (e) {
+      console.warn(e)
+    }
+  }
+
+  const reset = () => {
+    TRAY=[];
+    total_flour=0;
+    setTargetFlour('');
+    setTitle('');
+    setPageReload(!pageReload)
   }
 
   const loadAssets = () => {
@@ -428,7 +444,7 @@ const Calculator = ({
       </IngredientContainer>
       <ButtomContainer>
 
-        <TouchableOpacity onPress={reset}><ResetBtn>
+        <TouchableOpacity onPress={deleteTest}><ResetBtn>
         <ResetText>초기화</ResetText>
         </ResetBtn></TouchableOpacity>
 
