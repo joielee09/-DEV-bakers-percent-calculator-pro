@@ -167,7 +167,16 @@ const AlertModalTextContainer = styled.View`
   padding-top: ${HEIGHT*0.04}px;
 `;
 
-// let TRAY = [];
+const getUserInfo = async() => {
+  try{
+      const value = await AsyncStorage.getItem('USER_INFO');
+      if(value!==null){
+            return JSON.parse(value);
+      }
+  } catch (e) {
+      console.warn(e);
+  }
+}
 
 
 const Calculator = ({
@@ -179,7 +188,6 @@ const Calculator = ({
     }
   }
 }) => {
-  console.log("cur in cal index:", cur.TITLE);
   // cur.TRAY.map(cur=>TRAY.push(cur));
   // total_flour = cur.TOTAL_FLOUR;
   // console.log("TRAY: ",cur.TRAY)
@@ -198,6 +206,7 @@ const Calculator = ({
   const [nameAlertModalVisible,setNameAlertModalVisible] = useState(false);
   const [pageReload, setPageReload] = useState(true)
   const nameList = '';
+
 
   const reset = () => {
     console.log("초기화!")
@@ -242,36 +251,37 @@ const Calculator = ({
     }
 
     // redux에 저장된 재료 statue 가져오기
-    let list = store.getState();
-    if (inputFromBR) setInputFlour(inputFromBR);
-    console.log("inputFlour: ", inputFromBR)
+    // let list = store.getState();
+    // if (inputFromBR) setInputFlour(inputFromBR);
+    // console.log("inputFlour: ", inputFromBR)
 
     // let total_flour = flourStore.getState().totalFlour
     // error 1
-    list.TRAY.push({
-      "inputGram": total_flour,
-      "inputName": 'flour',
-      "percentage": '100.0',
-      "targetGram": targetFlour,
-      "flag": true,
-      "flourInput": false,
-    });
+    // list.TRAY.push({
+    //   "inputGram": total_flour,
+    //   "inputName": 'flour',
+    //   "percentage": '100.0',
+    //   "targetGram": targetFlour,
+    //   "flag": true,
+    //   "flourInput": false,
+    // });
+    const USER_INFO = await getUserInfo();
+    console.log("USER_INFO: ", USER_INFO);
 
-    console.log("list: ", list);
-
+    const recipe_id = parseInt(Math.random()*100000000);
     // Save at DB
     await makePrivateRecipe({
       "IMAGE": "https://i.stack.imgur.com/y9DpT.jpg",
-      "PUBLIC": true,
+      "PUBLIC": false,
       "RATING": 1,
-      "RECIPE_ID":21, // automatically escalate
+      "RECIPE_ID":recipe_id, // automatically escalate
       "REVIEW": "",
       "TITLE": title,
-      "TRAY": TRAY,
-      "USER_ID": 4, // get user id in localStorage
-      "AUTHOR": "프랑스 참새", // get name of user in localStorage
+      "USER_ID": USER_INFO.USER_ID, // get user id in localStorage
+      "AUTHOR": USER_INFO.NICKNAME, // get name of user in localStorage
       "LIEKS": 0,
-      "TOTAL_FLOUR": total_flour
+      "TOTAL_FLOUR": total_flour,
+      "TRAY": TRAY
     })
     Alert.alert('저장되었습니다!')
   }
@@ -411,7 +421,7 @@ const Calculator = ({
       </IngredientContainer>
       <ButtomContainer>
 
-        <TouchableOpacity onPress={reset}><ResetBtn>
+        <TouchableOpacity onPress={getUserInfo}><ResetBtn>
         <ResetText>초기화</ResetText>
         </ResetBtn></TouchableOpacity>
 
@@ -489,9 +499,9 @@ const Calculator = ({
                 "inputName":inputName, 
                 "inputGram":inputGram,
                 "percentage": 0,
-                "targetGram": 0,
                 "flag": true,
-                "flourInput": false
+                "flourInput": false,
+                "targetGram": 0
               })
 
               // store.dispatch({
@@ -595,9 +605,9 @@ const Calculator = ({
                 "inputName":inputName, 
                 "inputGram":inputGram,
                 "percentage": 0,
-                "targetGram": 0,
                 "flag": true,
-                "flourInput": true
+                "flourInput": true,
+                "targetGram": 0
               })
               // store.dispatch({
               //   type:'addIgd',

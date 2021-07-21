@@ -110,11 +110,12 @@ const TextON = styled.Text`
 const Basic = ({
   navigation,
   route:{
-    params: {cur}
+    params: {cur, USER_INFO}
   }
   }) => {
-  console.log("LIKE_USERS: ",cur.LIKE_USERS);
-  const [LIKES, setLIKES] = useState(cur.LIKE_USERS.filter(cur=>cur===5).length==1?true:false); // use local user number
+  // console.log("cur and USER_INFO: ", cur, USER_INFO);
+  console.log("LIKE USERS: ", cur.LIKE_USERS);
+  const [LIKES, setLIKES] = useState(cur.LIKE_USERS.filter(cur=>cur===USER_INFO.USER_ID).length==1?true:false); // use local user number
   const loaded = Font.useFonts({
     'PoorStory': require('../../../assets/fonts/Delius-Regular.ttf'),
     'PoorStory': require('../../../assets/fonts/PoorStory-Regular.ttf'),
@@ -126,15 +127,23 @@ const Basic = ({
   const pressLike = () => {
     console.log(LIKES)
     // Todo : 해당 글의 LIKES를 증가시키는 함수
+
     if(LIKES===true){
       cur.LIKES-=1;
       cur.LIKE_USERS.pop();
       console.log(cur.LIKE_USERS);
     } else{
       cur.LIKES+=1;
-      cur.LIKE_USERS.push(5); // local user number
+      cur.LIKE_USERS.push(USER_INFO.USER_ID); // local user number
       console.log(cur.LIKE_USERS);
     }
+    
+    updatePublicLikes({
+      "USER_ID":cur.USER_ID,
+      "RECIPE_ID":cur.RECIPE_ID,
+      "LIKES":cur.LIKES,
+      "LIKE_USERS":cur.LIKE_USERS
+    })
     setLIKES(!LIKES);
   }
 
@@ -145,12 +154,12 @@ const Basic = ({
   }
 
   useEffect(()=>{
-    navigation.addListener('blur', ()=>updatePublicLikes({
-      "USER_ID":cur.USER_ID,
-      "RECIPE_ID":cur.RECIPE_ID,
-      "LIKES":cur.LIKES,
-      "LIKE_USERS":cur.LIKE_USERS
-    }))
+    // navigation.addListener('blur', ()=>updatePublicLikes({
+    //   "USER_ID":cur.USER_ID,
+    //   "RECIPE_ID":cur.RECIPE_ID,
+    //   "LIKES":cur.LIKES,
+    //   "LIKE_USERS":cur.LIKE_USERS
+    // }))
   })
 
   if(loaded){

@@ -173,6 +173,7 @@ const IngredientWrapper = styled.View`
 let TRAY = [];
 let total_flour=0;
 
+
 const Calculator = ({
   dispatch,
   navigation,
@@ -180,9 +181,17 @@ const Calculator = ({
     params
   }
 }) => {
-  console.log("cur in cal index:", params);
-  // const navigation = useNavigation();
-  
+  const getUserInfo = async() => {
+    try{
+        const value = await AsyncStorage.getItem('USER_INFO');
+        if(value!==null){
+              return JSON.parse(value);
+        }
+    } catch (e) {
+        console.warn(e);
+    }
+  }
+
   const [inputFromBR, setInputFromBR] = useState(flourStore.getState().totalFlour)
   const [inputFlour, setInputFlour] = useState('');
   const [targetFlour, setTargetFlour] = useState('');
@@ -194,7 +203,6 @@ const Calculator = ({
   const [IngedientAlertModalVisible,setIngedientAlertModalVisible] = useState(false);
   const [nameAlertModalVisible,setNameAlertModalVisible] = useState(false);
   const [pageReload, setPageReload] = useState(true)
-  const nameList = '';
 
   const deleteItem = (itemName) =>{
     console.log(itemName)
@@ -257,22 +265,26 @@ const Calculator = ({
     // });
 
     // console.log("list: ", list);
+    const USER_INFO = await getUserInfo();
+    console.log("USER_INFO: ", USER_INFO);
 
+    const recipe_id = parseInt(Math.random()*100000000);
     // Save at DB
     await makePrivateRecipe({
       "IMAGE": "https://i.stack.imgur.com/y9DpT.jpg",
-      "PUBLIC": true,
+      "PUBLIC": false,
       "RATING": 1,
-      "RECIPE_ID":21, // automatically escalate
+      "RECIPE_ID":recipe_id, // automatically escalate
       "REVIEW": "",
       "TITLE": title,
       "TRAY": TRAY,
-      "USER_ID": 4, // get user id in localStorage
-      "AUTHOR": "프랑스 참새", // get name of user in localStorage
+      "USER_ID": USER_INFO.USER_ID, // get user id in localStorage
+      "AUTHOR": USER_INFO.NICKNAME, // get name of user in localStorage
       "LIEKS": 0,
       "TOTAL_FLOUR": total_flour
     })
     Alert.alert('저장되었습니다!')
+
   }
 
   // const devList = () => {console.log(store.getState());}
@@ -352,10 +364,9 @@ const Calculator = ({
   }
 
   const onFinish = () => {}
-
   
   useEffect(() => {
-    navigation.addListener('blur', () => reset())
+    navigation.addListener('blur', () => reset());
   }, []);
 
   const [loaded] = Font.useFonts({
@@ -522,9 +533,9 @@ const Calculator = ({
                 "inputName":inputName, 
                 "inputGram":inputGram,
                 "percentage": 0,
-                "targetGram": 0,
                 "flag": false,
                 "flourInput": false,
+                "targetGram": 0
               })
 
               store.dispatch({
@@ -533,9 +544,9 @@ const Calculator = ({
                   "inputName":inputName, 
                   "inputGram":inputGram,
                   "percentage": 0,
-                  "targetGram": 0,
                   "flag": true,
                   "flourInput": false,
+                  "targetGram": 0
                 }
               })
               // setModalVisible(!modalVisible);
@@ -628,9 +639,9 @@ const Calculator = ({
                 "inputName":inputName, 
                 "inputGram":inputGram,
                 "percentage": 0,
-                "targetGram": 0,
                 "flag": true,
-                "flourInput": true
+                "flourInput": true,
+                "targetGram": 0
               })
               store.dispatch({
                 type:'addIgd',
@@ -638,8 +649,8 @@ const Calculator = ({
                 "inputName":inputName, 
                 "inputGram":inputGram,
                 "percentage": 0,
-                "targetGram": 0,
-                "flag": true
+                "flag": true,
+                "targetGram": 0
               }
               })
 

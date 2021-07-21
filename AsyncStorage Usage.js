@@ -2,11 +2,11 @@
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const test = async() => {
+const getUserInfo = async() => {
     try{
         const value = await AsyncStorage.getItem('USER_INFO');
         if(value!==null){
-            console.log(JSON.parse(value));
+            return JSON.parse(value);
         }
     } catch (e) {
         console.warn(e);

@@ -52,7 +52,7 @@ const Likes = styled.Text`
   ${'' /* background-color: lightgreen; */}
 `;
 
-export default Basic = ({refreshFn, loading, recipes}) => {
+export default Basic = ({refreshFn, loading, recipes, USER_INFO}) => {
   // console.log("cur in presenter: ", recipes[0]);
   const list = data.custom_list;
 
@@ -67,7 +67,8 @@ export default Basic = ({refreshFn, loading, recipes}) => {
   const Navigation = useNavigation();
   const goToRecipe = (cur) => {
     Navigation.navigate("BasicRecipe",{
-      cur
+      "cur":cur,
+      "USER_INFO":USER_INFO
     });
   }
 

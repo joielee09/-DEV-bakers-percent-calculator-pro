@@ -1,0 +1,42 @@
+{
+    "item": {
+        "AUTHOR": "마포구고양이2",
+        "IMAGE": "https://bakerspercent.s3.ap-northeast-2.amazonaws.com/src/private/1/user_1_1626864200584.jpeg",
+        "LIKES": 0,
+        "PUBLIC": false,
+        "RATING": 4,
+        "RECIPE_ID": 71856717,
+        "REVIEW": "08ㅔㅜㅕ4ㅛㅛ",
+        "TITLE": "단백한빵",
+        "TOTAL_FLOUR": 1771,
+        "USER_ID": 52792,
+        "TRAY": [
+            {
+            "inputGram": 1000,
+            "inputName": "강력분",
+            "percentage": 100,
+            "targetGram": 0
+            },
+            {
+            "inputGram": 405,
+            "inputName": "물",
+            "percentage": 40.5,
+            "targetGram": 0
+            },
+            {
+            "inputGram": 135,
+            "inputName": "계란",
+            "percentage": 13.5,
+            "targetGram": 0
+            },
+            {
+            "flag": true,
+            "flourInput": false,
+            "inputGram": 1000,
+            "inputName": "flour",
+            "percentage": 100,
+            "targetGram": 0
+            }
+        ]
+    }
+}

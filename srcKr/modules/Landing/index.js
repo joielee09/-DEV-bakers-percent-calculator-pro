@@ -86,6 +86,18 @@ const PassText = styled.Text`
   margin: auto;
 `;
 
+const getUserInfo = async() => {
+  try{
+      const value = await AsyncStorage.getItem('USER_INFO');
+      if(value!==null){
+          return JSON.parse(value);
+      }
+  } catch (e) {
+      console.warn(e);
+  }
+}
+let USER_INFO = getUserInfo();
+
 export default Basic = () => {
   const [FULL_NAME, setFullname] = useState('');
   const [NICKNAME, setNickname] = useState('');

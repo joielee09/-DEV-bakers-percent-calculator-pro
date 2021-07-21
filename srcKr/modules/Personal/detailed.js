@@ -9,6 +9,7 @@ import * as ImagePicker from 'expo-image-picker';
 
 import { connect } from 'react-redux';
 import Clipboard from 'expo-clipboard';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { 
   uploadImageAsync, 
@@ -186,6 +187,17 @@ const detailed = (
   }
 ) => {
 
+  const getUserInfo = async() => {
+    try{
+        const value = await AsyncStorage.getItem('USER_INFO');
+        if(value!==null){
+              return JSON.parse(value);
+        }
+    } catch (e) {
+        console.warn(e);
+    }
+  }  
+
   const [imgUri, setImgUri] = useState(currentRecipe.IMAGE);
   const [value, onChangeText] = useState(currentRecipe.REVIEW); //review
   const [rate, setRate] = useState(currentRecipe.RATING);
@@ -263,20 +275,23 @@ const detailed = (
     }
 
     console.log("location: ", location);
-    
+
+    const USER_INFO = await getUserInfo();
+    console.log("USER_INFO: ", USER_INFO, currentRecipe.USER_ID, currentRecipe.RECIPE_ID);
+    console.log("LIKES: ", currentRecipe.LIKES);
     try{
       await updatePrivateRecipe({
         "RECIPE_ID": currentRecipe.RECIPE_ID,
         "USER_ID": currentRecipe.USER_ID,
         "IMAGE": location, // update IMAGE
         "PUBLIC": currentRecipe.PUBLIC,
-        "RATING": rate, //update RATING
+        "RATING": parseInt(rate), //update RATING
         "REVIEW": value, // update REVIEW
         "TITLE": currentRecipe.TITLE,
         "TRAY": currentRecipe.TRAY,
         "TOTAL_FLOUR":currentRecipe.TOTAL_FLOUR,
         "AUTHOR": currentRecipe.AUTHOR,
-        "LIKES": currentRecipe.LIKES,
+        "LIKES": parseInt(currentRecipe.LIKES),
       });
     }
     catch (e) {

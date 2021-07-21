@@ -25,5 +25,5 @@ export default (cur) => {
     useEffect(()=>{
     }, []);
 
-    return <DetailedPresenter ingredients={cur.TRAY}{...cur.AUTHOR}/>
+    // return <DetailedPresenter ingredients={cur.TRAY}{...cur.AUTHOR}/>
 }
