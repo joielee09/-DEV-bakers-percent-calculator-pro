@@ -179,7 +179,7 @@ const Calculator = ({
     }
   }
 }) => {
-  console.log("cur in cal index:", cur.TITLE);
+  // console.log("cur in cal index:", cur.TITLE);
   // cur.TRAY.map(cur=>TRAY.push(cur));
   // total_flour = cur.TOTAL_FLOUR;
   // console.log("TRAY: ",cur.TRAY)

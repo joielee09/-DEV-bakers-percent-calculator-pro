@@ -310,7 +310,7 @@ const Calculator = ({
       // console.log((cur.inputGram / total_flour), parseInt(targetHelper), (cur.inputGram / total_flour)* parseInt(targetHelper))
     })
 
-    console.log("TRAY in apply: ", TRAY);
+    // console.log("TRAY in apply: ", TRAY);
     // store.dispatch({
     //   type: 'apply',
     //   totalFlour: flourStore.getState().totalFlour,
@@ -320,7 +320,7 @@ const Calculator = ({
   }
 
   const reset = () => {
-    console.log("하하하")
+    // console.log("하하하")
     uploadImageAsync('file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540joielee%252FbakersPercent/ImagePicker/7d7f0003-cceb-4059-8015-c9051db25e12.jpg')
 
     // console.log("초기화!")
