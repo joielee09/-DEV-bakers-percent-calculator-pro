@@ -18,7 +18,7 @@ export const uploadImageAsync = async (base64) => {
         return result.data
     }
     catch (e) {
-        console.log(e);
+        console.warn(e);
     }
 }
 
@@ -32,7 +32,7 @@ export const getPublicRecipeData = async () => {
         return result.data
     }
     catch (e) {
-        console.log(e);
+        console.warn(e);
     }
 }
 
@@ -50,7 +50,7 @@ export const getPrivateRecipe = async (USER_ID) => {
         return result.data
     }
     catch (e) {
-        console.log(e);
+        console.warn(e);
     }
 }
 
@@ -68,7 +68,7 @@ export const makePrivateRecipe = async (ITEM) => {
             return result.data
         }
     catch (e) {
-        console.log(e);
+        console.warn(e);
     }
 }
 
@@ -82,7 +82,6 @@ export const makePublicRecipe = async (ITEM) => {
                 data,
                 {headers},
             )
-            console.log(result)
         }
     catch (e) {
         console.warn(e);
@@ -97,7 +96,6 @@ export const updatePrivateRecipe = async (ITEM) => {
  * @ ITEM: Contents of Private Recipe. It includes Picture, Recipe, Review, Rating
  */
     try {
-        console.log("original updateprivaterecipe")
         const data = {
             "item": ITEM
         }
@@ -106,7 +104,6 @@ export const updatePrivateRecipe = async (ITEM) => {
             data,
             {headers}
         )
-        console.log("successfully updated: ", result);
     }
     catch (e) {
         console.warn(e);
@@ -167,12 +164,28 @@ export const deletePrivateRecipe = async (ITEM) => {
                 data,
                 {headers}
             )
-            console.log("✅ successfully public update likes: ", result);
         }
         catch (e) {
             console.warn(e);
         }
     }
+
+
+// CREATE USER
+
+export const createUser = async(USER_INFO) => {
+    try {
+        const data = USER_INFO;
+        const result = await axios.post(
+            urls.createUser_url,
+            data,
+            {headers}
+        )
+    }
+    catch (e) {
+        console.warn(e)
+    }
+}
 
 
 /* ITEM format */
